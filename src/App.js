@@ -1,6 +1,5 @@
 import "./App.css";
 import Post from "./components/Post";
-import Addpostform from "./components/Add-post-form";
 
 function App() {
   return (

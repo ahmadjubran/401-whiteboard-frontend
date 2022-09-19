@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { BsTrash } from "react-icons/bs";
 
 export default function Deletepost(props) {
   const handleSubmit = async (e) => {
@@ -16,12 +17,8 @@ export default function Deletepost(props) {
   return (
     <div className="float-end">
       <Form onSubmit={handleSubmit}>
-        <Button
-          variant="variant"
-          type="submit"
-          className="bg-white text-dark border-0"
-        >
-          Delete
+        <Button type="submit" className=" bg-transparent border-0">
+          <BsTrash />
         </Button>
       </Form>
     </div>
