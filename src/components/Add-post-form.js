@@ -39,12 +39,10 @@ export default function Addpostform(props) {
           ? {
               width: "75%",
               margin: "auto",
-              backgroundColor: "#242526",
             }
           : {
               width: "50%",
               margin: "auto",
-              backgroundColor: "#242526",
             }
       }
       className="mt-5 d-flex flex-column gap-3 py-4 px-3 rounded-4 align-items-start"
@@ -68,7 +66,10 @@ export default function Addpostform(props) {
             type="text"
             placeholder="Content"
             name="content"
-            className="border-0 rounded-5"
+            className="border-0 rounded-3"
+            as="textarea"
+            rows={4}
+            style={{ resize: "none" }}
           />
         </Form.Group>
         <Button

@@ -4,6 +4,7 @@ import { Card } from "react-bootstrap";
 import Addcommentform from "./Add-comment-form";
 import Addpostform from "./Add-post-form";
 import Deletepost from "./Delete-post";
+import Editpost from "./Edit-post";
 
 export default function Post() {
   const [posts, setPosts] = useState([]);
@@ -46,6 +47,7 @@ export default function Post() {
             }}
           >
             <Deletepost posts={showPosts} id={post.id} />
+            <Editpost posts={showPosts} id={post.id} />
 
             <div className="d-flex gap-3 align-items-center pb-2">
               <img
@@ -61,7 +63,11 @@ export default function Post() {
             </div>
             <Card.Title className="mt-2">{post.title}</Card.Title>
             <Card.Text
-              style={{ borderBottom: "1px solid #444", paddingBottom: "10px" }}
+              style={{
+                borderBottom: "1px solid #444",
+                paddingBottom: "10px",
+                whiteSpace: "pre-line",
+              }}
             >
               {post.content}
             </Card.Text>
