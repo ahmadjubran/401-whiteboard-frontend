@@ -5,6 +5,10 @@ import { Button, Form } from "react-bootstrap";
 export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (e.target.password.value !== e.target.confirmPassword.value) {
+      alert("Passwords do not match");
+      return;
+    }
     const user = {
       userName: e.target.username.value,
       password: e.target.password.value,
@@ -44,6 +48,14 @@ export default function Signup() {
             type="password"
             placeholder="Password"
             name="password"
+            className="border-0 rounded-5"
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
             className="border-0 rounded-5"
           />
         </Form.Group>
