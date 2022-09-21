@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import cookies from "react-cookies";
 
 export default function Addpostform(props) {
   const [title, setTitle] = useState("");
@@ -21,10 +22,15 @@ export default function Addpostform(props) {
     if (title === "" || content === "") {
       return;
     } else {
-      await axios.post(`https://whiteboard-backend-3000.herokuapp.com/post/`, {
-        title: title,
-        content: content,
-      });
+      await axios.post(
+        `https://whiteboard-backend-3000.herokuapp.com/post/${cookies.load(
+          "userId"
+        )}`,
+        {
+          title: title,
+          content: content,
+        }
+      );
       props.posts();
       e.target.reset();
       setTitle("");

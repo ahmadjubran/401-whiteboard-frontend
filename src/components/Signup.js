@@ -1,10 +1,12 @@
 import axios from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import cookies from "react-cookies";
 
 export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (e.target.password.value !== e.target.confirmPassword.value) {
       alert("Passwords do not match");
       return;
@@ -15,13 +17,20 @@ export default function Signup() {
       email: e.target.email.value,
     };
     try {
-      await axios.post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
-        userName: user.userName,
-        password: user.password,
-        email: user.email,
-      });
-      localStorage.setItem("token", true);
-      window.location.href = "/post";
+      await axios
+        .post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
+          userName: user.userName,
+          password: user.password,
+          email: user.email,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 201) {
+            cookies.save("token", res.data.token);
+            cookies.save("userId", res.data.id);
+            window.location.href = "/post";
+          }
+        });
     } catch (err) {
       console.log(err);
     }

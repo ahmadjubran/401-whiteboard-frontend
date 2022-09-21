@@ -1,14 +1,15 @@
 import axios from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import cookies from "react-cookies";
 
 export default function logout() {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      window.location.href = "/signin";
+      cookies.remove("token");
+      cookies.remove("userId");
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }

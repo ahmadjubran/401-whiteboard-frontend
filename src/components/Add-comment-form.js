@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import cookies from "react-cookies";
 
 export default function Addcommentform(props) {
   const [comment, setComment] = useState("");
@@ -16,7 +17,9 @@ export default function Addcommentform(props) {
       return;
     } else {
       await axios.post(
-        `https://whiteboard-backend-3000.herokuapp.com/comment/${props.id}`,
+        `https://whiteboard-backend-3000.herokuapp.com/comment/${cookies.load(
+          "userId"
+        )}/${props.postId}`,
         {
           content: comment,
         }

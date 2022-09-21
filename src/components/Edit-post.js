@@ -26,13 +26,10 @@ export default function Editpost(props) {
     if (title === "" || content === "") {
       return;
     } else {
-      await axios.put(
-        `https://whiteboard-backend-3000.herokuapp.com/post/${props.id}`,
-        {
-          title: title,
-          content: content,
-        }
-      );
+      await axios.put(`https://whiteboard-backend-3000.herokuapp.com/post/${props.id}`, {
+        title: title,
+        content: content,
+      });
       props.posts();
       e.target.reset();
       setShow(false);
