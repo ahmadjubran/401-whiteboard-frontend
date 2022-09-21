@@ -5,6 +5,7 @@ import Addcommentform from "./Add-comment-form";
 import Addpostform from "./Add-post-form";
 import Deletepost from "./Delete-post";
 import Editpost from "./Edit-post";
+import cookies from "react-cookies";
 
 export default function Post() {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,7 @@ export default function Post() {
 
   const showPosts = async () => {
     const response = await axios.get(
-      "https://whiteboard-backend-3000.herokuapp.com/post"
+      `https://whiteboard-backend-3000.herokuapp.com/post`
     );
     setPosts(response.data);
   };
@@ -112,7 +113,7 @@ export default function Post() {
                   </div>
                 </div>
               ))}
-              <Addcommentform id={post.id} posts={showPosts} />
+              <Addcommentform postId={post.id} posts={showPosts} />
             </div>
           </Card.Body>
         </Card>

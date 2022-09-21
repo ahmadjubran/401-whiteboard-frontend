@@ -7,6 +7,7 @@ import Signup from "./components/Signup";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Header from "./components/Header";
+import cookies from "react-cookies";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -19,10 +20,10 @@ root.render(
         <Route path="/" element={<Signin />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        {localStorage.getItem("token") === "true" ? (
+        {cookies.load("token") ? (
           <Route path="/post" element={<App />} />
         ) : (
-          <Route path="/post" element={<Signin />} />
+          <Route path="/signin" element={<Signin />} />
         )}
       </Routes>
     </BrowserRouter>

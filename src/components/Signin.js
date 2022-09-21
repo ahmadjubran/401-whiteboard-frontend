@@ -2,10 +2,12 @@ import axios from "axios";
 import base64 from "base-64";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import cookies from "react-cookies";
 
 export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const user = {
       username: e.target.username.value,
       password: e.target.password.value,
@@ -23,8 +25,8 @@ export default function Signin() {
       )
       .then((res) => {
         if (res.status === 200) {
-          localStorage.setItem("token", true);
-          localStorage.setItem("username", user.username);
+          cookies.save("token", res.data.token);
+          cookies.save("userId", res.data.User.id);
           window.location.href = "/post";
         }
       })
