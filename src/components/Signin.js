@@ -3,6 +3,7 @@ import base64 from "base-64";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
+import "./Post.css";
 
 export default function Signin() {
   const handleSubmit = async (e) => {
@@ -40,8 +41,7 @@ export default function Signin() {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Form
         onSubmit={handleSubmit}
-        className="d-flex flex-column gap-3 p-3 border-0 rounded-3"
-        style={{ width: "50%" }}
+        className="d-flex flex-column gap-3 p-3 border-0 rounded-3 signin-form"
       >
         <h1 className="text-center">Sign In</h1>
         <Form.Group>

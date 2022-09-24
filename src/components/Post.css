@@ -1,0 +1,54 @@
+.post-card {
+  width: 50%;
+  background-color: #242526 !important;
+}
+
+.add-post-card,
+.signup-form,
+.signin-form {
+  width: 50%;
+}
+
+.post-card-body {
+  padding: 10px;
+  text-align: left;
+}
+
+.post-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.post-content {
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+  .post-card,
+  .add-post-card,
+  .signup-form,
+  .signin-form {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .post-card,
+  .add-post-card,
+  .signup-form,
+  .signin-form {
+    width: 75%;
+  }
+}
+
+@media (max-width: 576px) {
+  .post-card,
+  .add-post-card,
+  .signup-form,
+  .signin-form {
+    width: 90%;
+  }
+}

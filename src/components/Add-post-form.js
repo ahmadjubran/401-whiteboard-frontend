@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
+import "./Post.css";
 
 export default function Addpostform(props) {
   const [title, setTitle] = useState("");
@@ -39,20 +40,7 @@ export default function Addpostform(props) {
   };
 
   return (
-    <div
-      style={
-        props.matches
-          ? {
-              width: "75%",
-              margin: "auto",
-            }
-          : {
-              width: "50%",
-              margin: "auto",
-            }
-      }
-      className="mt-5 d-flex flex-column gap-3 py-4 px-3 rounded-4 align-items-start"
-    >
+    <div className="mt-5 mx-auto d-flex flex-column gap-3 py-4 px-3 rounded-4 align-items-start add-post-card">
       <h2>Add Post</h2>
       <Form
         onSubmit={handleSubmit}

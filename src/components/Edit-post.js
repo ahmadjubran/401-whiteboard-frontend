@@ -26,11 +26,14 @@ export default function Editpost(props) {
     if (title === "" || content === "") {
       return;
     } else {
-      await axios.put(`https://whiteboard-backend-3000.herokuapp.com/post/${props.id}`, {
-        title: title,
-        content: content,
-      });
-      props.posts();
+      await axios.put(
+        `https://whiteboard-backend-3000.herokuapp.com/post/${props.post.id}`,
+        {
+          title: title,
+          content: content,
+        }
+      );
+      props.showPosts();
       e.target.reset();
       setShow(false);
       setContent("");
@@ -47,11 +50,14 @@ export default function Editpost(props) {
         <BsPencil />
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton className="bg-dark">
+      <Modal show={show} onHide={handleClose} size="lg" centered>
+        <Modal.Header
+          closeButton
+          style={{ border: "none", backgroundColor: "#242526" }}
+        >
           <Modal.Title>Edit Post</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bg-dark">
+        <Modal.Body style={{ backgroundColor: "#242526" }}>
           <Form
             onSubmit={handleSubmit}
             onChange={handleChange}
@@ -63,6 +69,7 @@ export default function Editpost(props) {
                 placeholder="Title"
                 name="title"
                 className="border-0 rounded-5 mt-3"
+                defaultValue={props.post.title}
               />
             </Form.Group>
             <Form.Group>
@@ -72,8 +79,9 @@ export default function Editpost(props) {
                 name="content"
                 className="border-0 rounded-3 mt-3"
                 as="textarea"
-                rows={3}
+                rows={4}
                 style={{ resize: "none" }}
+                defaultValue={props.post.content}
               />
             </Form.Group>
 

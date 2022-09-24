@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
+import "./Post.css";
 
 export default function Signup() {
   const handleSubmit = async (e) => {
@@ -41,8 +42,7 @@ export default function Signup() {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Form
         onSubmit={handleSubmit}
-        className="d-flex flex-column gap-3 p-3 border-0 rounded-3"
-        style={{ width: "50%" }}
+        className="d-flex flex-column gap-3 p-3 border-0 rounded-3 signup-form"
       >
         <h1 className="text-center">Sign Up</h1>
         <Form.Group>

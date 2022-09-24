@@ -8,9 +8,9 @@ export default function Deletepost(props) {
     e.preventDefault();
 
     await axios.delete(
-      `https://whiteboard-backend-3000.herokuapp.com/post/${props.id}`
+      `https://whiteboard-backend-3000.herokuapp.com/post/${props.post.id}`
     );
-    props.posts();
+    props.showPosts();
     e.target.reset();
   };
 
