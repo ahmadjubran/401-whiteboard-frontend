@@ -27,7 +27,8 @@ export default function Signup() {
           console.log(res);
           if (res.status === 201) {
             cookies.save("token", res.data.token);
-            cookies.save("userId", res.data.id);
+            cookies.save("userId", res.data.User.id);
+            cookies.save("username", res.data.User.userName);
             window.location.href = "/post";
           }
         });

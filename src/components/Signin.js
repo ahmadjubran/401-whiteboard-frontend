@@ -27,6 +27,7 @@ export default function Signin() {
         if (res.status === 200) {
           cookies.save("token", res.data.token);
           cookies.save("userId", res.data.User.id);
+          cookies.save("username", res.data.User.userName);
           window.location.href = "/post";
         }
       })
