@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
 
 export default function Addcommentform(props) {
   const [comment, setComment] = useState("");
@@ -33,21 +34,26 @@ export default function Addcommentform(props) {
   return (
     <div>
       <Form onSubmit={handleSubmit} onChange={handleChange}>
-        <Form.Group>
+        <Form.Group className="d-flex justify-content-center align-items-center gap-2 mt-3">
+          <img
+            src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
+            alt="profile"
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+            }}
+          />
           <Form.Control
             type="text"
-            placeholder="Enter comment"
+            placeholder="Add a comment ..."
             name="comment"
-            className="border-0 rounded-5 mt-3"
+            className="border-0 rounded-5"
           />
+          <Button type="submit" className="bg-transparent border-0 p-0">
+            <BsFillArrowRightCircleFill className="fs-2" />
+          </Button>
         </Form.Group>
-        <Button
-          variant="primary"
-          type="submit"
-          className="mt-3 bg-white text-dark border-0"
-        >
-          Submit
-        </Button>
       </Form>
     </div>
   );

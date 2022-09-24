@@ -2,50 +2,61 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import cookies from "react-cookies";
-import Addcommentform from "./Add-comment-form";
 import Addpostform from "./Add-post-form";
+import Comment from "./Comment";
 import Deletepost from "./Delete-post";
 import Editpost from "./Edit-post";
 
+import "./Post.css";
+
 export default function Post() {
   const [posts, setPosts] = useState([]);
-  // const [user, setUser] = useState({});
-  const [matches, setMatches] = useState(
-    window.matchMedia("(max-width: 1080px)").matches
-  );
 
-  const showPosts = async () => {
-    const posts = await axios.get(
-      `https://whiteboard-backend-3000.herokuapp.com/post`,
+  const getPosts = async () => {
+    const response = await axios.get(
+      "https://whiteboard-backend-3000.herokuapp.com/post",
       {
         headers: {
           Authorization: `Bearer ${cookies.load("token")}`,
         },
       }
     );
+    return response.data;
+  };
 
-    const users = await axios.get(
-      `https://whiteboard-backend-3000.herokuapp.com/users`,
+  const getUsers = async () => {
+    const response = await axios.get(
+      "https://whiteboard-backend-3000.herokuapp.com/users",
       {
         headers: {
           Authorization: `Bearer ${cookies.load("token")}`,
         },
       }
     );
+    return response.data;
+  };
 
-    const postsOutput = posts.data.map((post) => {
-      const postsUser = users.data.find((user) => user.User.id === post.userId);
+  const postsInfo = async () => {
+    const posts = await getPosts();
+    const users = await getUsers();
 
-      const commentsOutput = post.Comments.map((comment) => {
-        const commentsUser = users.data.find(
+    const postsInfo = posts.map((post) => {
+      const postUser = users.find((user) => user.User.id === post.userId);
+
+      const commentsInfo = post.Comments.map((comment) => {
+        const commentUser = users.find(
           (user) => user.User.id === comment.userId
         );
-        return { ...comment, User: commentsUser.User };
+        return { ...comment, User: commentUser.User };
       });
-      return { ...post, User: postsUser.User, Comments: commentsOutput };
+      return { ...post, User: postUser.User, Comments: commentsInfo };
     });
+    return postsInfo;
+  };
 
-    const sortedPosts = postsOutput.sort((a, b) => {
+  const showPosts = async () => {
+    const posts = await postsInfo();
+    const sortedPosts = posts.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
@@ -54,98 +65,53 @@ export default function Post() {
 
   useEffect(() => {
     showPosts();
-
-    const handler = (e) => setMatches(e.matches);
-    window.matchMedia("(max-width: 1080px)").addListener(handler);
   }, []);
 
   return (
     <div>
-      <Addpostform posts={showPosts} matches={matches} />
+      <Addpostform posts={showPosts} />
 
       {posts.map((post, index) => (
         <Card
-          className="my-5 mx-auto p-3 border-0 rounded-4"
-          style={
-            matches
-              ? { width: "75%", backgroundColor: "#242526" }
-              : { width: "50%", backgroundColor: "#242526" }
-          }
+          className="my-5 mx-auto p-3 border-0 rounded-4 post-card"
           key={index}
         >
-          <Card.Body
-            style={{
-              padding: "10px",
-              textAlign: "left",
-            }}
-          >
-            <Deletepost posts={showPosts} id={post.id} />
-            <Editpost posts={showPosts} id={post.id} />
+          <Card.Body className="post-card-body">
+            {post.User.id === Number(cookies.load("userId")) ? (
+              <div>
+                <Deletepost showPosts={showPosts} post={post} />
+                <Editpost showPosts={showPosts} post={post} />
+              </div>
+            ) : null}
 
             <div className="d-flex gap-3 align-items-center pb-2">
               <img
                 src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
                 alt="profile"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                }}
+                className="post-img"
               />
-              <Card.Subtitle>{post.User.userName}</Card.Subtitle>
+              <div>
+                <Card.Subtitle>{post.User.userName}</Card.Subtitle>
+                <Card.Text className="text-muted">
+                  {new Date(post.createdAt)
+                    .toLocaleString()
+                    .split(",")[0]
+                    .slice(0, 4)}{" "}
+                  at {new Date(post.createdAt).toLocaleString().split(",")[1]}
+                </Card.Text>
+              </div>
             </div>
             <Card.Title className="mt-2">{post.title}</Card.Title>
-            <Card.Text
-              style={{
-                borderBottom: "1px solid #444",
-                paddingBottom: "10px",
-                whiteSpace: "pre-line",
-              }}
-            >
-              {post.content}
-            </Card.Text>
+            <Card.Text className="post-content">{post.content}</Card.Text>
             <div>
               <Card.Subtitle className="mb-2 text-muted">
                 Comments
               </Card.Subtitle>
-              {post.Comments.map((comment, index) => (
-                <div
-                  className="d-flex gap-2 py-2"
-                  key={index}
-                  style={
-                    index === post.Comments.length - 1
-                      ? {
-                          borderBottom: "1px solid #444",
-                        }
-                      : {}
-                  }
-                >
-                  <img
-                    src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
-                    alt="profile"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div className="d-flex flex-column gap-1 pt-2">
-                    <Card.Subtitle>{comment.User.userName}</Card.Subtitle>
-                    <Card.Text
-                      style={
-                        index === post.Comments.length - 1
-                          ? {
-                              paddingBottom: "10px",
-                            }
-                          : {}
-                      }
-                    >
-                      {comment.content}
-                    </Card.Text>
-                  </div>
-                </div>
-              ))}
-              <Addcommentform postId={post.id} posts={showPosts} />
+              <Comment
+                comments={post.Comments}
+                postId={post.id}
+                posts={showPosts}
+              />
             </div>
           </Card.Body>
         </Card>
