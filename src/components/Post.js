@@ -1,23 +1,55 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
+import cookies from "react-cookies";
 import Addcommentform from "./Add-comment-form";
 import Addpostform from "./Add-post-form";
 import Deletepost from "./Delete-post";
 import Editpost from "./Edit-post";
-import cookies from "react-cookies";
 
 export default function Post() {
   const [posts, setPosts] = useState([]);
+  // const [user, setUser] = useState({});
   const [matches, setMatches] = useState(
     window.matchMedia("(max-width: 1080px)").matches
   );
 
   const showPosts = async () => {
-    const response = await axios.get(
-      `https://whiteboard-backend-3000.herokuapp.com/post`
+    const posts = await axios.get(
+      `https://whiteboard-backend-3000.herokuapp.com/post`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.load("token")}`,
+        },
+      }
     );
-    setPosts(response.data);
+
+    const users = await axios.get(
+      `https://whiteboard-backend-3000.herokuapp.com/users`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.load("token")}`,
+        },
+      }
+    );
+
+    const postsOutput = posts.data.map((post) => {
+      const postsUser = users.data.find((user) => user.User.id === post.userId);
+
+      const commentsOutput = post.Comments.map((comment) => {
+        const commentsUser = users.data.find(
+          (user) => user.User.id === comment.userId
+        );
+        return { ...comment, User: commentsUser.User };
+      });
+      return { ...post, User: postsUser.User, Comments: commentsOutput };
+    });
+
+    const sortedPosts = postsOutput.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+    setPosts(sortedPosts);
   };
 
   useEffect(() => {
@@ -60,7 +92,7 @@ export default function Post() {
                   borderRadius: "50%",
                 }}
               />
-              <Card.Subtitle>Ahmad Jubran</Card.Subtitle>
+              <Card.Subtitle>{post.User.userName}</Card.Subtitle>
             </div>
             <Card.Title className="mt-2">{post.title}</Card.Title>
             <Card.Text
@@ -98,7 +130,7 @@ export default function Post() {
                     }}
                   />
                   <div className="d-flex flex-column gap-1 pt-2">
-                    <Card.Subtitle>Ahmad Jubran</Card.Subtitle>
+                    <Card.Subtitle>{comment.User.userName}</Card.Subtitle>
                     <Card.Text
                       style={
                         index === post.Comments.length - 1
