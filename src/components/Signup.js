@@ -16,6 +16,7 @@ export default function Signup() {
       userName: e.target.username.value,
       password: e.target.password.value,
       email: e.target.email.value,
+      role: e.target.role.value,
     };
     try {
       await axios
@@ -23,6 +24,7 @@ export default function Signup() {
           userName: user.userName,
           password: user.password,
           email: user.email,
+          role: user.role,
         })
         .then((res) => {
           console.log(res);
@@ -77,14 +79,28 @@ export default function Signup() {
             className="border-0 rounded-5"
           />
         </Form.Group>
+        <div className="d-flex justify-content-around align-items-center">
+          <Form.Group>
+            <Form.Check
+              type="radio"
+              label="User"
+              name="role"
+              value="user"
+              defaultChecked
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Check type="radio" label="Admin" name="role" value="admin" />
+          </Form.Group>
+        </div>
         <Button
           variant="primary"
           type="submit"
-          className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-3"
+          className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-2 w-50 align-self-center"
         >
           Sign Up
         </Button>
-        <div className="signin">
+        <div className="signin align-self-center">
           <p>
             Already have an account{" "}
             <a className="text-decoration-none" href="/signin">

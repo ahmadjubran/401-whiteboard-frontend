@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { BsPencil } from "react-icons/bs";
+import cookies from "react-cookies";
 
 export default function Editpost(props) {
   const [show, setShow] = useState(false);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [content, setContent] = useState(props.post.content);
+  const [title, setTitle] = useState(props.post.title);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -31,13 +32,16 @@ export default function Editpost(props) {
         {
           title: title,
           content: content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.load("token")}`,
+          },
         }
       );
       props.showPosts();
       e.target.reset();
       setShow(false);
-      setContent("");
-      setTitle("");
     }
   };
 

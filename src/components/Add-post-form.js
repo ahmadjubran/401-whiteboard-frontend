@@ -30,8 +30,14 @@ export default function Addpostform(props) {
         {
           title: title,
           content: content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.load("token")}`,
+          },
         }
       );
+
       props.posts();
       e.target.reset();
       setTitle("");

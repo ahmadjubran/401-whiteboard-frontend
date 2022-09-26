@@ -3,10 +3,13 @@
   background-color: #242526 !important;
 }
 
-.add-post-card,
+.add-post-card {
+  width: 50%;
+}
+
 .signup-form,
 .signin-form {
-  width: 50%;
+  width: 40%;
 }
 
 .post-card-body {
