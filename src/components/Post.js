@@ -78,8 +78,12 @@ export default function Post() {
           key={index}
         >
           <Card.Body className="post-card-body">
-            <Deletepost showPosts={showPosts} post={post} />
-            <Editpost showPosts={showPosts} post={post} />
+            {cookies.load("role") === "admin" ? (
+              <div>
+                <Deletepost showPosts={showPosts} post={post} />
+                <Editpost showPosts={showPosts} post={post} />
+              </div>
+            ) : null}
 
             <div className="d-flex gap-3 align-items-center pb-2">
               <img
