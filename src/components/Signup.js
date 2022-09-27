@@ -32,6 +32,7 @@ export default function Signup() {
             cookies.save("token", res.data.token);
             cookies.save("userId", res.data.User.id);
             cookies.save("username", res.data.User.userName);
+            cookies.save("role", res.data.User.role);
             window.location.href = "/post";
           }
         });

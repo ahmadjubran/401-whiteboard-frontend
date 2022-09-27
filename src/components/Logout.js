@@ -9,6 +9,7 @@ export default function logout() {
       cookies.remove("token");
       cookies.remove("userId");
       cookies.remove("username");
+      cookies.remove("role");
       window.location.href = "/";
     } catch (err) {
       console.log(err);
