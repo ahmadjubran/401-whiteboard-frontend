@@ -4,7 +4,9 @@ import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
 import "./Post.css";
 
-export default function Signup() {
+export default function Signup(props) {
+  const { setIsAuth } = props;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,13 +29,17 @@ export default function Signup() {
           role: user.role,
         })
         .then((res) => {
-          console.log(res);
           if (res.status === 201) {
+            setIsAuth(true);
             cookies.save("token", res.data.token);
             cookies.save("userId", res.data.User.id);
             cookies.save("username", res.data.User.userName);
             cookies.save("role", res.data.User.role);
-            window.location.href = "/post";
+            setIsAuth((state) => {
+              if (state) {
+                window.location.href = "/post";
+              }
+            });
           }
         });
     } catch (err) {

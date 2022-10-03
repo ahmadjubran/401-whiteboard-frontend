@@ -1,12 +1,7 @@
 import React from "react";
-import cookies from "react-cookies";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import AuthProvider from "./context/AuthContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -15,20 +10,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Signin />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        {cookies.load("token") ? (
-          <Route path="/post" element={<App />} />
-        ) : (
-          <Route path="/signin" element={<Signin />} />
-        )}
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 
