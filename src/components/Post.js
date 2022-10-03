@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 import cookies from "react-cookies";
 import Addpostform from "./Add-post-form";
 import Comment from "./Comment";
@@ -71,14 +70,14 @@ export default function Post() {
   return (
     <div>
       <Addpostform posts={showPosts} />
-
       {posts.map((post, index) => (
         <Card
           className="my-5 mx-auto p-3 border-0 rounded-4 post-card"
           key={index}
         >
           <Card.Body className="post-card-body">
-            {cookies.load("role") === "admin" ? (
+            {Number(cookies.load("userId")) === post.userId ||
+            cookies.load("role") === "admin" ? (
               <div>
                 <Deletepost showPosts={showPosts} post={post} />
                 <Editpost showPosts={showPosts} post={post} />

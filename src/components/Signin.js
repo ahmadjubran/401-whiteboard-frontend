@@ -1,11 +1,14 @@
 import axios from "axios";
 import base64 from "base-64";
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
+
 import "./Post.css";
 
-export default function Signin() {
+export default function Signin(props) {
+  const { setIsAuth } = props;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -14,28 +17,34 @@ export default function Signin() {
       password: e.target.password.value,
     };
     const encoded = base64.encode(`${user.username}:${user.password}`);
-    await axios
-      .post(
-        `https://whiteboard-backend-3000.herokuapp.com/login`,
-        {},
-        {
-          headers: {
-            Authorization: `Basic ${encoded}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          cookies.save("token", res.data.token);
-          cookies.save("userId", res.data.User.id);
-          cookies.save("username", res.data.User.userName);
-          cookies.save("role", res.data.User.role);
-          window.location.href = "/post";
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      await axios
+        .post(
+          `https://whiteboard-backend-3000.herokuapp.com/login`,
+          {},
+          {
+            headers: {
+              Authorization: `Basic ${encoded}`,
+            },
+          }
+        )
+        .then(async (res) => {
+          if (res.status === 200) {
+            setIsAuth(true);
+            cookies.save("token", res.data.token);
+            cookies.save("userId", res.data.User.id);
+            cookies.save("username", res.data.User.userName);
+            cookies.save("role", res.data.User.role);
+            setIsAuth((state) => {
+              if (state) {
+                window.location.href = "/post";
+              }
+            });
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
