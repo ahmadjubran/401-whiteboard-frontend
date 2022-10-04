@@ -1,47 +1,33 @@
-import React, { useContext } from "react";
-import cookies from "react-cookies";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Post from "./components/Post";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
-import { AuthContext } from "./context/AuthContext";
-
+import React, { useContext, useEffect } from "react";
+import { When } from "react-if";
 import "./App.css";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+import Post from "./components/main/post/Post";
+import Sign from "./components/main/sign/Sign";
+import { AuthContext } from "./context/AuthContext";
+import PostProvider from "./context/PostContext";
 
 function App() {
-  const { isAuth, setIsAuth, getIsAuth } = useContext(AuthContext);
+  const { isAuth, checkToken } = useContext(AuthContext);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Header isAuth={isAuth} setIsAuth={setIsAuth} />
-        <Routes>
-          <Route
-            path="/"
-            element={<Signin isAuth={isAuth} setIsAuth={setIsAuth} />}
-          />
-          <Route
-            path="/signin"
-            element={<Signin isAuth={isAuth} setIsAuth={setIsAuth} />}
-          />
-          <Route
-            path="/signup"
-            element={<Signup isAuth={isAuth} setIsAuth={setIsAuth} />}
-          />
-          {cookies.load("token") ? (
-            <Route path="/post" element={<Post />} />
-          ) : (
-            <Route
-              path="/signin"
-              element={<Signin isAuth={isAuth} setIsAuth={setIsAuth} />}
-            />
-          )}
-        </Routes>
+    <PostProvider>
+      <div className="App">
+        <Header />
+        <When condition={!isAuth}>
+          <Sign />
+        </When>
+        <When condition={isAuth}>
+          <Post />
+        </When>
         <Footer />
-      </BrowserRouter>
-    </div>
+      </div>
+    </PostProvider>
   );
 }
 

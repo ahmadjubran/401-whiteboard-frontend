@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import cookies from "react-cookies";
-import "./Post.css";
+import "../../Style.css";
 
 export default function Addpostform(props) {
   const [title, setTitle] = useState("");
