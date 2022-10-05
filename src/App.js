@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { When } from "react-if";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -17,16 +17,19 @@ function App() {
 
   return (
     <PostProvider>
-      <div className="App">
-        <Header />
-        <When condition={!isAuth}>
-          <Sign />
-        </When>
-        <When condition={isAuth}>
-          <Post />
-        </When>
-        <Footer />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Header />
+          <Routes>
+            {isAuth ? (
+              <Route path="/post" element={<Post />} />
+            ) : (
+              <Route path="/" element={<Sign />} />
+            )}
+          </Routes>
+          <Footer />
+        </div>
+      </BrowserRouter>
     </PostProvider>
   );
 }

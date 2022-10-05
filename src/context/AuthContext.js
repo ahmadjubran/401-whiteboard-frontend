@@ -7,9 +7,12 @@ export const AuthContext = createContext();
 
 const AuthProvider = (props) => {
   const [isAuth, setIsAuth] = useState(false);
-  const [role, setRole] = useState("");
-  const [capabilties, setCapabilties] = useState();
-  const [userId, setUserId] = useState();
+  const [user, setUser] = useState({
+    userId: "",
+    userName: "",
+    role: "",
+    capabilities: [],
+  });
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -38,10 +41,13 @@ const AuthProvider = (props) => {
             cookies.save("role", res.data.User.role);
             cookies.save("userId", res.data.User.id);
             cookies.save("capabilities", res.data.User.capabilities);
-            setUserId(res.data.User.id);
-            setRole(res.data.User.role);
-            setCapabilties(res.data.User.capabilities);
-            window.location.href = "/";
+            setUser({
+              userId: res.data.User.id,
+              userName: res.data.User.userName,
+              role: res.data.User.role,
+              capabilities: res.data.User.capabilities,
+            });
+            window.location.href = "/post";
           }
         });
     } catch (err) {
@@ -78,10 +84,13 @@ const AuthProvider = (props) => {
             cookies.save("userId", res.data.User.id);
             cookies.save("role", res.data.User.role);
             cookies.save("capabilities", res.data.User.capabilities);
-            setUserId(res.data.User.id);
-            setRole(res.data.User.role);
-            setCapabilties(res.data.User.capabilities);
-            window.location.href = "/";
+            setUser({
+              userId: res.data.User.id,
+              userName: res.data.User.userName,
+              role: res.data.User.role,
+              capabilities: res.data.User.capabilities,
+            });
+            window.location.href = "/post";
           }
         });
     } catch (err) {
@@ -97,46 +106,47 @@ const AuthProvider = (props) => {
       cookies.remove("userId");
       cookies.remove("role");
       cookies.remove("capabilities");
-      setUserId();
-      setRole("");
-      setCapabilties();
+      setUser({
+        userId: "",
+        userName: "",
+        role: "",
+        capabilities: [],
+      });
       setIsAuth(false);
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }
   };
 
   const canDo = (cap, id) => {
-    if (role === "admin") {
+    if (user.capabilities.includes(cap)) {
       return true;
     }
-    if ((cap === "delete", "update")) {
-      if (Number(userId) === id) {
-        return true;
-      }
+    if (id === Number(user.userId)) {
+      return true;
     }
     return false;
   };
 
   const checkToken = () => {
     const token = cookies.load("token");
-    const role = cookies.load("role");
-    const userId = cookies.load("userId");
     if (token) {
       setIsAuth(true);
-      setUserId(userId);
-      setRole(role);
-      setCapabilties(cookies.load("capabilties"));
+      setUser({
+        userId: cookies.load("userId"),
+        userName: cookies.load("username"),
+        role: cookies.load("role"),
+        capabilities: cookies.load("capabilities"),
+      });
     }
   };
 
   const value = {
     isAuth,
     setIsAuth,
-    role,
-    setRole,
-    userId,
-    setUserId,
+    user,
+    setUser,
     handleSignin,
     handleSignup,
     handleLogout,

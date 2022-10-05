@@ -37,6 +37,7 @@ export default function Deletepost(props) {
       }
     );
 
+    setShow(false);
     props.posts();
   };
 
