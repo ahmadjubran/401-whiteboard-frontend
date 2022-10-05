@@ -37,10 +37,9 @@ export default function Deletepost(props) {
       }
     );
 
-    props.showPosts();
+    setShow(false);
+    props.posts();
   };
-
-  // When the admin clicks on Delete button a confirm alert should appear.
 
   return (
     <div>

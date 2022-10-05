@@ -1,56 +1,17 @@
-import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Form } from "react-bootstrap";
-import cookies from "react-cookies";
-import "./Post.css";
+import { AuthContext } from "../../../context/AuthContext";
+
+import "../../Style.css";
 
 export default function Signup(props) {
-  const { setIsAuth } = props;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (e.target.password.value !== e.target.confirmPassword.value) {
-      alert("Passwords do not match");
-      return;
-    }
-    const user = {
-      userName: e.target.username.value,
-      password: e.target.password.value,
-      email: e.target.email.value,
-      role: e.target.role.value,
-    };
-    try {
-      await axios
-        .post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
-          userName: user.userName,
-          password: user.password,
-          email: user.email,
-          role: user.role,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            setIsAuth(true);
-            cookies.save("token", res.data.token);
-            cookies.save("userId", res.data.User.id);
-            cookies.save("username", res.data.User.userName);
-            cookies.save("role", res.data.User.role);
-            setIsAuth((state) => {
-              if (state) {
-                window.location.href = "/post";
-              }
-            });
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { toggleSign } = props;
+  const { handleSignup } = useContext(AuthContext);
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Form
-        onSubmit={handleSubmit}
+        onSubmit={handleSignup}
         className="d-flex flex-column gap-3 p-3 border-0 rounded-3 signup-form"
       >
         <h1 className="text-center">Sign Up</h1>
@@ -60,6 +21,7 @@ export default function Signup(props) {
             placeholder="Username"
             name="username"
             className="border-0 rounded-5"
+            autoComplete="on"
           />
         </Form.Group>
         <Form.Group>
@@ -68,6 +30,7 @@ export default function Signup(props) {
             placeholder="Password"
             name="password"
             className="border-0 rounded-5"
+            autoComplete="off"
           />
         </Form.Group>
         <Form.Group>
@@ -76,6 +39,7 @@ export default function Signup(props) {
             placeholder="Confirm Password"
             name="confirmPassword"
             className="border-0 rounded-5"
+            autoComplete="off"
           />
         </Form.Group>
         <Form.Group>
@@ -84,6 +48,7 @@ export default function Signup(props) {
             placeholder="Email"
             name="email"
             className="border-0 rounded-5"
+            autoComplete="on"
           />
         </Form.Group>
         <div className="d-flex justify-content-around align-items-center">
@@ -110,9 +75,9 @@ export default function Signup(props) {
         <div className="signin align-self-center">
           <p>
             Already have an account{" "}
-            <a className="text-decoration-none" href="/signin">
+            <span className="text-primary" onClick={toggleSign} role="button">
               Sign In
-            </a>
+            </span>
           </p>
         </div>
       </Form>
