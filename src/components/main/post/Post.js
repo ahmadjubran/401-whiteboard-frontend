@@ -17,8 +17,7 @@ export default function Post() {
     <div>
       {canDo("create", null) && <Addpostform posts={showPosts} />}
 
-      {canDo("read", null) &&
-        posts &&
+      {posts &&
         posts.map((post, index) => (
           <Card
             className="my-5 mx-auto p-3 border-0 rounded-4 post-card"
