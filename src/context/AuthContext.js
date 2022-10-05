@@ -113,7 +113,7 @@ const AuthProvider = (props) => {
         capabilities: [],
       });
       setIsAuth(false);
-      window.location.href = "/";
+      window.location.href = "/sign";
     } catch (err) {
       console.log(err);
     }
