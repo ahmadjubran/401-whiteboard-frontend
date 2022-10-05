@@ -22,9 +22,14 @@ function App() {
           <Header />
           <Routes>
             {isAuth ? (
-              <Route path="/post" element={<Post />} />
+              <Route path="/" element={<Post />} />
             ) : (
               <Route path="/" element={<Sign />} />
+            )}
+            {isAuth ? (
+              <Route path="/post" element={<Post />} />
+            ) : (
+              <Route path="/sign" element={<Sign />} />
             )}
           </Routes>
           <Footer />
