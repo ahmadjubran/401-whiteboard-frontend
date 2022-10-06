@@ -14,7 +14,7 @@ export default function Header() {
           <Logout />
         </>
       ) : (
-        <h1>Whiteboard</h1>
+        <h1 data-testid="header">Whiteboard</h1>
       )}
     </div>
   );
