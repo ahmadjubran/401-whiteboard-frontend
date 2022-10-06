@@ -22,6 +22,7 @@ export default function Signup(props) {
             name="username"
             className="border-0 rounded-5"
             autoComplete="on"
+            data-testid="signup-username"
           />
         </Form.Group>
         <Form.Group>
@@ -31,6 +32,7 @@ export default function Signup(props) {
             name="password"
             className="border-0 rounded-5"
             autoComplete="off"
+            data-testid="signup-password"
           />
         </Form.Group>
         <Form.Group>
@@ -40,6 +42,7 @@ export default function Signup(props) {
             name="confirmPassword"
             className="border-0 rounded-5"
             autoComplete="off"
+            data-testid="signup-confirm-password"
           />
         </Form.Group>
         <Form.Group>
@@ -49,6 +52,7 @@ export default function Signup(props) {
             name="email"
             className="border-0 rounded-5"
             autoComplete="on"
+            data-testid="signup-email"
           />
         </Form.Group>
         <div className="d-flex justify-content-around align-items-center">
@@ -59,23 +63,36 @@ export default function Signup(props) {
               name="role"
               value="user"
               defaultChecked
+              data-testid="signup-user"
             />
           </Form.Group>
           <Form.Group>
-            <Form.Check type="radio" label="Admin" name="role" value="admin" />
+            <Form.Check
+              type="radio"
+              label="Admin"
+              name="role"
+              value="admin"
+              data-testid="signup-admin"
+            />
           </Form.Group>
         </div>
         <Button
           variant="primary"
           type="submit"
           className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-2 w-50 align-self-center"
+          data-testid="signup-submit"
         >
           Sign Up
         </Button>
         <div className="signin align-self-center">
           <p>
             Already have an account{" "}
-            <span className="text-primary" onClick={toggleSign} role="button">
+            <span
+              className="text-primary"
+              onClick={toggleSign}
+              role="button"
+              data-testid="signin-link"
+            >
               Sign In
             </span>
           </p>
