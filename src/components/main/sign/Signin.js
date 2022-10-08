@@ -37,7 +37,7 @@ export default function Signin(props) {
         </Form.Group>
         <Button
           type="submit"
-          className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-3"
+          className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-3 w-50 align-self-center"
           data-testid="signin-submit"
         >
           Sign In
