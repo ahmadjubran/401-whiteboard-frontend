@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -21,16 +21,18 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            {isAuth ? (
-              <Route path="/" element={<Post />} />
-            ) : (
-              <Route path="/" element={<Sign />} />
-            )}
-            {isAuth ? (
-              <Route path="/post" element={<Post />} />
-            ) : (
-              <Route path="/sign" element={<Sign />} />
-            )}
+            <Route
+              path="/"
+              element={isAuth ? <Navigate to="/post" /> : <Sign />}
+            />
+            <Route
+              path="/post"
+              element={isAuth ? <Post /> : <Navigate to="/sign" />}
+            />
+            <Route
+              path="/sign"
+              element={isAuth ? <Navigate to="/post" /> : <Sign />}
+            />
           </Routes>
           <Footer />
         </div>
