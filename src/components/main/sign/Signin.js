@@ -22,7 +22,6 @@ export default function Signin(props) {
             name="username"
             className="border-0 rounded-5"
             autoComplete="on"
-            data-testid="signin-username"
           />
         </Form.Group>
         <Form.Group>
@@ -32,25 +31,18 @@ export default function Signin(props) {
             name="password"
             className="border-0 rounded-5"
             autoComplete="off"
-            data-testid="signin-password"
           />
         </Form.Group>
         <Button
           type="submit"
           className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-3"
-          data-testid="signin-submit"
         >
           Sign In
         </Button>
         <div className="signup">
           <p>
             Don't have an account{" "}
-            <span
-              className="text-primary"
-              onClick={toggleSign}
-              role="button"
-              data-testid="signup-link"
-            >
+            <span className="text-primary" onClick={toggleSign} role="button">
               Sign Up
             </span>
           </p>

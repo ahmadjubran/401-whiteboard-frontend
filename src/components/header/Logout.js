@@ -7,11 +7,7 @@ export default function Logout() {
 
   return (
     <div>
-      <Button
-        className="bg-white text-dark border-0"
-        onClick={handleLogout}
-        data-testid="logout"
-      >
+      <Button className="bg-white text-dark border-0" onClick={handleLogout}>
         Logout
       </Button>
     </div>
