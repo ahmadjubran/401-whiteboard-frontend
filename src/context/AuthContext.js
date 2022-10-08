@@ -17,11 +17,9 @@ const AuthProvider = (props) => {
   const handleSignin = async (e) => {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
-
     const user = {
-      username: data.get("username"),
-      password: data.get("password"),
+      username: e.target.username.value,
+      password: e.target.password.value,
     };
     const encoded = base64.encode(`${user.username}:${user.password}`);
     try {
@@ -49,31 +47,27 @@ const AuthProvider = (props) => {
               role: res.data.User.role,
               capabilities: res.data.User.capabilities,
             });
-            window.location.reload();
+            window.location.href = "/post";
           }
         });
     } catch (err) {
-      alert("Invalid username or password");
+      console.log(err);
     }
   };
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
-
-    if (data.get("password") !== data.get("confirmPassword")) {
+    if (e.target.password.value !== e.target.confirmPassword.value) {
       alert("Passwords do not match");
       return;
     }
-
     const user = {
-      userName: data.get("username"),
-      password: data.get("password"),
-      role: data.get("role"),
-      email: data.get("email"),
+      userName: e.target.username.value,
+      password: e.target.password.value,
+      email: e.target.email.value,
+      role: e.target.role.value,
     };
-
     try {
       await axios
         .post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
@@ -96,11 +90,11 @@ const AuthProvider = (props) => {
               role: res.data.User.role,
               capabilities: res.data.User.capabilities,
             });
-            window.location.reload();
+            window.location.href = "/post";
           }
         });
     } catch (err) {
-      alert("Username or email already exists");
+      console.log(err);
     }
   };
 
@@ -119,6 +113,7 @@ const AuthProvider = (props) => {
         capabilities: [],
       });
       setIsAuth(false);
+      window.location.href = "/sign";
     } catch (err) {
       console.log(err);
     }
