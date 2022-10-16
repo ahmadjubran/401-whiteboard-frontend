@@ -1,11 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
-import cookies from "react-cookies";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { AuthContext } from "../../../context/AuthContext";
+import { PostContext } from "../../../context/PostContext";
+import { fetchPosts } from "../../../actions/PostActions";
 
 export default function Addcommentform(props) {
   const [comment, setComment] = useState("");
+  const { userState } = useContext(AuthContext);
+  const { dispatch } = useContext(PostContext);
 
   const handleChange = (e) => {
     setComment(e.target.value);
@@ -18,16 +22,15 @@ export default function Addcommentform(props) {
       return;
     } else {
       await axios.post(
-        `https://whiteboard-backend-3000.herokuapp.com/comment/${cookies.load(
-          "userId"
-        )}/${props.postId}`,
+        `https://whiteboard-backend-3000.herokuapp.com/comment/${userState.user.id}/${props.postId}`,
         {
           content: comment,
         }
       );
-      props.posts();
-      e.target.reset();
+
       setComment("");
+      fetchPosts(dispatch);
+      e.target.reset();
     }
   };
 

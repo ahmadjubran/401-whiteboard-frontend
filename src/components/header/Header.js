@@ -1,16 +1,15 @@
 import React, { useContext } from "react";
-import cookies from "react-cookies";
 import { AuthContext } from "../../context/AuthContext";
 import Logout from "./Logout";
 
 export default function Header() {
-  const { isAuth } = useContext(AuthContext);
+  const { userState } = useContext(AuthContext);
 
   return (
     <div className="d-flex justify-content-between align-items-center py-3 px-5">
-      {isAuth && cookies.load("token") ? (
+      {userState.isAuth && userState.token ? (
         <>
-          <h1>Welcome {cookies.load("username")}</h1>
+          <h1>Welcome {userState.user.userName}</h1>
           <Logout />
         </>
       ) : (

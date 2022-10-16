@@ -1,7 +1,8 @@
-import axios from "axios";
 import base64 from "base-64";
-import { createContext, useState } from "react";
-import cookies from "react-cookies";
+import { createContext, useReducer, useState } from "react";
+import { login, signup, logout } from "../actions/AuthActions";
+import { initialState } from "../config/Initials";
+import { AuthReducer } from "../reducers/AuthReducer";
 
 export const AuthContext = createContext();
 
@@ -14,6 +15,8 @@ const AuthProvider = (props) => {
     capabilities: [],
   });
 
+  const [userState, dispatch] = useReducer(AuthReducer, initialState);
+
   const handleSignin = async (e) => {
     e.preventDefault();
 
@@ -24,37 +27,8 @@ const AuthProvider = (props) => {
       password: data.get("password"),
     };
     const encoded = base64.encode(`${user.username}:${user.password}`);
-    try {
-      await axios
-        .post(
-          `https://whiteboard-backend-3000.herokuapp.com/login`,
-          {},
-          {
-            headers: {
-              Authorization: `Basic ${encoded}`,
-            },
-          }
-        )
-        .then(async (res) => {
-          if (res.status === 200) {
-            setIsAuth(true);
-            cookies.save("token", res.data.token);
-            cookies.save("username", res.data.User.userName);
-            cookies.save("role", res.data.User.role);
-            cookies.save("userId", res.data.User.id);
-            cookies.save("capabilities", res.data.User.capabilities);
-            setUser({
-              userId: res.data.User.id,
-              userName: res.data.User.userName,
-              role: res.data.User.role,
-              capabilities: res.data.User.capabilities,
-            });
-            window.location.reload();
-          }
-        });
-    } catch (err) {
-      alert("Invalid username or password");
-    }
+
+    login(dispatch, encoded);
   };
 
   const handleSignup = async (e) => {
@@ -74,75 +48,34 @@ const AuthProvider = (props) => {
       email: data.get("email"),
     };
 
-    try {
-      await axios
-        .post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
-          userName: user.userName,
-          password: user.password,
-          email: user.email,
-          role: user.role,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            setIsAuth(true);
-            cookies.save("token", res.data.token);
-            cookies.save("username", res.data.User.userName);
-            cookies.save("userId", res.data.User.id);
-            cookies.save("role", res.data.User.role);
-            cookies.save("capabilities", res.data.User.capabilities);
-            setUser({
-              userId: res.data.User.id,
-              userName: res.data.User.userName,
-              role: res.data.User.role,
-              capabilities: res.data.User.capabilities,
-            });
-            window.location.reload();
-          }
-        });
-    } catch (err) {
-      alert("Username or email already exists");
-    }
+    signup(dispatch, user);
   };
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    try {
-      cookies.remove("token");
-      cookies.remove("username");
-      cookies.remove("userId");
-      cookies.remove("role");
-      cookies.remove("capabilities");
-      setUser({
-        userId: "",
-        userName: "",
-        role: "",
-        capabilities: [],
-      });
-      setIsAuth(false);
-    } catch (err) {
-      console.log(err);
-    }
+
+    logout(dispatch);
   };
 
   const canDo = (cap, id) => {
-    if (user.capabilities.includes(cap)) {
+    if (userState.user.capabilities.includes(cap)) {
       return true;
     }
-    if (id === Number(user.userId)) {
+    if (id === Number(userState.user.id)) {
       return true;
     }
     return false;
   };
 
   const checkToken = () => {
-    const token = cookies.load("token");
+    const token = userState.token;
     if (token) {
       setIsAuth(true);
       setUser({
-        userId: cookies.load("userId"),
-        userName: cookies.load("username"),
-        role: cookies.load("role"),
-        capabilities: cookies.load("capabilities"),
+        userId: userState.user.userId,
+        userName: userState.user.userName,
+        role: userState.user.role,
+        capabilities: userState.user.capabilities,
       });
     }
   };
@@ -152,6 +85,7 @@ const AuthProvider = (props) => {
     setIsAuth,
     user,
     setUser,
+    userState,
     handleSignin,
     handleSignup,
     handleLogout,
