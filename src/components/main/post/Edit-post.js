@@ -1,13 +1,17 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import cookies from "react-cookies";
 import { BsPencil } from "react-icons/bs";
+import { AuthContext } from "../../../context/AuthContext";
+import { PostContext } from "../../../context/PostContext";
+import { fetchPosts } from "../../../actions/PostActions";
 
 export default function Editpost(props) {
   const [show, setShow] = useState(false);
   const [content, setContent] = useState(props.post.content);
   const [title, setTitle] = useState(props.post.title);
+  const { userState } = useContext(AuthContext);
+  const { dispatch } = useContext(PostContext);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -34,11 +38,12 @@ export default function Editpost(props) {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookies.load("token")}`,
+            Authorization: `Bearer ${userState.token}`,
           },
         }
       );
-      props.posts();
+
+      fetchPosts(dispatch);
       e.target.reset();
       setShow(false);
     }

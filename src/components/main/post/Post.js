@@ -10,28 +10,24 @@ import Editpost from "./Edit-post";
 import "../../Style.css";
 
 export default function Post() {
-  const { posts, showPosts } = useContext(PostContext);
-  const { isAuth, canDo } = useContext(AuthContext);
+  const { postState } = useContext(PostContext);
+  const { userState, canDo } = useContext(AuthContext);
 
-  return isAuth ? (
+  return userState.isAuth ? (
     <div>
-      {canDo("create", null) && <Addpostform posts={showPosts} />}
+      {canDo("create", null) && <Addpostform />}
 
       {canDo("read", null) &&
-        posts &&
-        posts.map((post, index) => (
+        postState.posts &&
+        postState.posts.map((post, index) => (
           <Card
             className="my-5 mx-auto p-3 border-0 rounded-4 post-card"
             key={index}
           >
             <Card.Body className="post-card-body">
-              {canDo("delete", post.userId) && (
-                <Deletepost post={post} posts={showPosts} />
-              )}
+              {canDo("delete", post.userId) && <Deletepost post={post} />}
 
-              {canDo("update", post.userId) && (
-                <Editpost post={post} posts={showPosts} />
-              )}
+              {canDo("update", post.userId) && <Editpost post={post} />}
 
               <div className="d-flex gap-3 align-items-center pb-2">
                 <img
@@ -56,11 +52,7 @@ export default function Post() {
                 <Card.Subtitle className="mb-2 text-muted">
                   Comments
                 </Card.Subtitle>
-                <Comment
-                  comments={post.Comments}
-                  postId={post.id}
-                  posts={showPosts}
-                />
+                <Comment comments={post.Comments} postId={post.id} />
               </div>
             </Card.Body>
           </Card>

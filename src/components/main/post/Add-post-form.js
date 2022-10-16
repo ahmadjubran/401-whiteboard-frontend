@@ -1,12 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
-import cookies from "react-cookies";
 import "../../Style.css";
+import { AuthContext } from "../../../context/AuthContext";
+import { PostContext } from "../../../context/PostContext";
+import { fetchPosts } from "../../../actions/PostActions";
 
 export default function Addpostform(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const { userState } = useContext(AuthContext);
+  const { dispatch } = useContext(PostContext);
 
   const handleChange = (e) => {
     if (e.target.name === "title") {
@@ -24,24 +28,22 @@ export default function Addpostform(props) {
       return;
     } else {
       await axios.post(
-        `https://whiteboard-backend-3000.herokuapp.com/post/${cookies.load(
-          "userId"
-        )}`,
+        `https://whiteboard-backend-3000.herokuapp.com/post/${userState.user.id}`,
         {
           title: title,
           content: content,
         },
         {
           headers: {
-            Authorization: `Bearer ${cookies.load("token")}`,
+            Authorization: `Bearer ${userState.token}`,
           },
         }
       );
 
-      props.posts();
-      e.target.reset();
       setTitle("");
       setContent("");
+      fetchPosts(dispatch);
+      e.target.reset();
     }
   };
 

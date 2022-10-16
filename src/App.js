@@ -9,10 +9,10 @@ import { AuthContext } from "./context/AuthContext";
 import PostProvider from "./context/PostContext";
 
 function App() {
-  const { isAuth, checkToken } = useContext(AuthContext);
+  const { userState } = useContext(AuthContext);
 
   useEffect(() => {
-    checkToken();
+    // checkToken();
   }, []);
 
   return (
@@ -23,15 +23,15 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={isAuth ? <Navigate to="/post" /> : <Sign />}
+              element={userState.isAuth ? <Navigate to="/post" /> : <Sign />}
             />
             <Route
               path="/post"
-              element={isAuth ? <Post /> : <Navigate to="/sign" />}
+              element={userState.isAuth ? <Post /> : <Navigate to="/sign" />}
             />
             <Route
               path="/sign"
-              element={isAuth ? <Navigate to="/post" /> : <Sign />}
+              element={userState.isAuth ? <Navigate to="/post" /> : <Sign />}
             />
           </Routes>
           <Footer />
