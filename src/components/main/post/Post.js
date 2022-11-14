@@ -47,8 +47,8 @@ export default function Post() {
                 </Box>
               </Flex>
               <Box align="right" display="flex" alignItems="center" gridGap={4}>
-                {canDo("update", post) && <Editpost post={post} />}
-                {canDo("delete", post) && <Deletepost post={post} />}
+                {canDo("update", post.User.id) && <Editpost post={post} />}
+                {canDo("delete", post.User.id) && <Deletepost post={post} />}
               </Box>
             </Flex>
             <Text fontSize="xl" m={4} ml={6} align="left" fontWeight="bold">
