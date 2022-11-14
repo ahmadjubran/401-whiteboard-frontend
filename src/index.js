@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import AuthProvider from "./context/AuthContext";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import theme from "./theme";
 
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -10,11 +12,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </AuthProvider>
+  <ChakraProvider>
+    <AuthProvider>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </AuthProvider>
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

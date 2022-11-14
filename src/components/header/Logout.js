@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { Button } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Logout() {
+export default function Logout(props) {
   const { handleLogout } = useContext(AuthContext);
+  const { Button } = props;
 
   return (
     <div>
-      <Button className="bg-white text-dark border-0" onClick={handleLogout}>
+      <Button onClick={handleLogout} colorScheme="blue">
         Logout
       </Button>
     </div>

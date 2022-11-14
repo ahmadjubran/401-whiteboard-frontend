@@ -1,5 +1,16 @@
-import React, { useContext } from "react";
-import { Button, Form } from "react-bootstrap";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Radio,
+  RadioGroup,
+  useColorMode,
+  VStack,
+} from "@chakra-ui/react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 
 import "../../Style.css";
@@ -7,97 +18,82 @@ import "../../Style.css";
 export default function Signup(props) {
   const { toggleSign } = props;
   const { handleSignup } = useContext(AuthContext);
+  const { colorMode } = useColorMode();
+  const inputBg = colorMode === "light" ? "gray.200" : "gray.800";
+
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+    });
+  }, []);
+
+  const handleWidth = () => {
+    if (width < 300) {
+      return "100vw";
+    } else if (width < 600) {
+      return "75vw";
+    } else if (width < 900) {
+      return "50vw";
+    } else {
+      return "25vw";
+    }
+  };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form
-        onSubmit={handleSignup}
-        className="d-flex flex-column gap-3 p-3 border-0 rounded-3 signup-form"
-      >
-        <h1 className="text-center">Sign Up</h1>
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="Username"
-            name="username"
-            className="border-0 rounded-5"
-            autoComplete="on"
-            data-testid="signup-username"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            className="border-0 rounded-5"
-            autoComplete="off"
-            data-testid="signup-password"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            className="border-0 rounded-5"
-            autoComplete="off"
-            data-testid="signup-confirm-password"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            type="email"
-            placeholder="Email"
-            name="email"
-            className="border-0 rounded-5"
-            autoComplete="on"
-            data-testid="signup-email"
-          />
-        </Form.Group>
-        <div className="d-flex justify-content-around align-items-center">
-          <Form.Group>
-            <Form.Check
-              type="radio"
-              label="User"
-              name="role"
-              value="user"
-              defaultChecked
-              data-testid="signup-user"
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Check
-              type="radio"
-              label="Admin"
-              name="role"
-              value="admin"
-              data-testid="signup-admin"
-            />
-          </Form.Group>
-        </div>
-        <Button
-          variant="primary"
-          type="submit"
-          className="btn btn-primary border-0 rounded-5 bg-white text-dark mt-2 w-50 align-self-center"
-          data-testid="signup-submit"
-        >
+    <VStack
+      w="100vw"
+      h="80vh"
+      bg={colorMode === "light" ? "gray.100" : "gray.800"}
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Heading>Sign Up</Heading>
+      <form onSubmit={handleSignup}>
+        <FormControl id="username" isRequired>
+          <FormLabel>Username</FormLabel>
+          <Input type="text" name="username" bg={inputBg} w={handleWidth()} />
+        </FormControl>
+
+        <FormControl id="password" isRequired mt={4}>
+          <FormLabel>Password</FormLabel>
+          <Input type="password" name="password" bg={inputBg} w={handleWidth()} />
+        </FormControl>
+
+        <FormControl id="confirmPassword" isRequired mt={4}>
+          <FormLabel>Confirm Password</FormLabel>
+          <Input type="password" name="confirmPassword" bg={inputBg} w={handleWidth()} />
+        </FormControl>
+
+        <FormControl id="email" isRequired mt={4}>
+          <FormLabel>Email</FormLabel>
+          <Input type="email" name="email" bg={inputBg} w={handleWidth()} />
+        </FormControl>
+
+        <FormControl id="role" isRequired w={handleWidth()} mt={4}>
+          <FormLabel>Role</FormLabel>
+          <RadioGroup
+            name="role"
+            defaultValue="user"
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            gap={10}
+          >
+            <Radio value="user">User</Radio>
+            <Radio value="admin">Admin</Radio>
+          </RadioGroup>
+        </FormControl>
+        <Button type="submit" mt={4} w={handleWidth()} colorScheme="blue">
           Sign Up
         </Button>
-        <div className="signin align-self-center">
-          <p>
-            Already have an account{" "}
-            <span
-              className="text-primary"
-              onClick={toggleSign}
-              role="button"
-              data-testid="signin-link"
-            >
-              Sign In
-            </span>
-          </p>
-        </div>
-      </Form>
-    </div>
+      </form>
+      <p>
+        Already have an account{" "}
+        <Link onClick={toggleSign} color="blue.500">
+          Sign In
+        </Link>
+      </p>
+    </VStack>
   );
 }

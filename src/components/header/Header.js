@@ -1,20 +1,37 @@
+import { Button, Heading, useColorMode, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Logout from "./Logout";
 
 export default function Header() {
   const { userState } = useContext(AuthContext);
+  const { colorMode } = useColorMode();
 
   return (
-    <div className="d-flex justify-content-between align-items-center py-3 px-5">
+    <>
       {userState.isAuth && userState.token ? (
-        <>
-          <h1>Welcome {userState.user.userName}</h1>
-          <Logout />
-        </>
+        <VStack
+          w="100vw"
+          h="10vh"
+          justifyContent="space-around"
+          alignItems="center"
+          flexDirection="row"
+          bg={colorMode === "light" ? "gray.100" : "gray.800"}
+        >
+          <Heading>Welcome {userState.user.userName}</Heading>
+          <Logout Button={Button} />
+        </VStack>
       ) : (
-        <h1>Whiteboard</h1>
+        <VStack
+          w="100vw"
+          h="10vh"
+          justifyContent="center"
+          alignItems="center"
+          bg={colorMode === "light" ? "gray.100" : "gray.800"}
+        >
+          <Heading>Whiteboard</Heading>
+        </VStack>
       )}
-    </div>
+    </>
   );
 }
