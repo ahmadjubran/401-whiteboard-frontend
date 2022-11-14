@@ -21,12 +21,9 @@ export default function Addcommentform(props) {
     if (comment === "") {
       return;
     } else {
-      await axios.post(
-        `https://whiteboard-backend-3000.herokuapp.com/comment/${userState.user.id}/${props.postId}`,
-        {
-          content: comment,
-        }
-      );
+      await axios.post(`https://whiteboard-backend-3000.herokuapp.com/comment/${userState.user.id}/${props.postId}`, {
+        content: comment,
+      });
 
       setComment("");
       fetchPosts(dispatch);
@@ -47,12 +44,7 @@ export default function Addcommentform(props) {
               borderRadius: "50%",
             }}
           />
-          <Form.Control
-            type="text"
-            placeholder="Add a comment ..."
-            name="comment"
-            className="border-0 rounded-5"
-          />
+          <Form.Control type="text" placeholder="Add a comment ..." name="comment" className="border-0 rounded-5" />
           <Button type="submit" className="bg-transparent border-0 p-0">
             <BsFillArrowRightCircleFill className="fs-2" />
           </Button>

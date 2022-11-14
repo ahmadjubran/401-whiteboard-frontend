@@ -2,14 +2,15 @@
 
 body {
   margin: 0;
-  font-family: "Rubik", sans-serif !important;
+  font-family: "Rubik", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #18191a !important;
-  color: white !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+#root {
+  background-color: #e2e8f0;
 }

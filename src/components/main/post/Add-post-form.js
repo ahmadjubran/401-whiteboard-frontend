@@ -1,16 +1,34 @@
+import { Button, FormControl, FormLabel, Heading, Input, Textarea, useColorMode, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState, useContext } from "react";
-import { Button, Form } from "react-bootstrap";
-import "../../Style.css";
+import React, { useContext, useEffect, useState } from "react";
+import { fetchPosts } from "../../../actions/PostActions";
 import { AuthContext } from "../../../context/AuthContext";
 import { PostContext } from "../../../context/PostContext";
-import { fetchPosts } from "../../../actions/PostActions";
 
 export default function Addpostform(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { userState } = useContext(AuthContext);
   const { dispatch } = useContext(PostContext);
+  const { colorMode } = useColorMode();
+  const inputBg = colorMode === "light" ? "gray.200" : "gray.800";
+
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+    });
+  }, []);
+
+  const handleWidth = () => {
+    if (width < 600) {
+      return "90vw";
+    } else if (width < 900) {
+      return "75vw";
+    } else {
+      return "50vw";
+    }
+  };
 
   const handleChange = (e) => {
     if (e.target.name === "title") {
@@ -48,40 +66,27 @@ export default function Addpostform(props) {
   };
 
   return (
-    <div className="mt-5 mx-auto d-flex flex-column gap-3 py-4 px-3 rounded-4 align-items-start add-post-card">
-      <h2>Add Post</h2>
-      <Form
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        className="w-100 d-flex flex-column gap-3"
-      >
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="Title"
-            name="title"
-            className="border-0 rounded-5"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="Content"
-            name="content"
-            className="border-0 rounded-3"
-            as="textarea"
-            rows={4}
-            style={{ resize: "none" }}
-          />
-        </Form.Group>
-        <Button
-          variant="primary"
-          type="submit"
-          className="bg-white border-0 text-dark w-25 align-self-start"
-        >
-          Submit
+    <VStack
+      w="100vw"
+      h="60vh"
+      bg={colorMode === "light" ? "gray.100" : "gray.800"}
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Heading>Add Post</Heading>
+      <form onSubmit={handleSubmit} onChange={handleChange}>
+        <FormControl id="title" isRequired mt={4}>
+          <FormLabel>Title</FormLabel>
+          <Input type="text" name="title" bg={inputBg} w={handleWidth()} />
+        </FormControl>
+        <FormControl id="content" isRequired mt={4}>
+          <FormLabel>Content</FormLabel>
+          <Textarea type="text" name="content" bg={inputBg} w={handleWidth()} resize="none" lineHeight="1.5" rows="5" />
+        </FormControl>
+        <Button type="submit" colorScheme="blue" mt={4}>
+          Add Post
         </Button>
-      </Form>
-    </div>
+      </form>
+    </VStack>
   );
 }

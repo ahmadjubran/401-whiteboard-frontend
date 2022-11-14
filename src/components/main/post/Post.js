@@ -1,66 +1,79 @@
+import { Box, Button, Flex, Heading, Text, useColorMode, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { Card } from "react-bootstrap";
 import { AuthContext } from "../../../context/AuthContext";
 import { PostContext } from "../../../context/PostContext";
 import Addpostform from "./Add-post-form";
 import Comment from "./Comment";
 import Deletepost from "./Delete-post";
 import Editpost from "./Edit-post";
-
-import "../../Style.css";
-
 export default function Post() {
   const { postState } = useContext(PostContext);
   const { userState, canDo } = useContext(AuthContext);
+  const { colorMode } = useColorMode();
 
   return userState.isAuth ? (
-    <div>
+    <VStack w="100%" align="center" spacing={8} bg={colorMode === "light" ? "gray.100" : "gray.800"}>
       {canDo("create", null) && <Addpostform />}
 
       {canDo("read", null) &&
         postState.posts &&
         postState.posts.map((post, index) => (
-          <Card
-            className="my-5 mx-auto p-3 border-0 rounded-4 post-card"
+          <Box
             key={index}
+            w="50vw"
+            p={4}
+            m={4}
+            bg={colorMode === "light" ? "gray.200" : "gray.700"}
+            borderRadius="lg"
+            boxShadow="lg"
           >
-            <Card.Body className="post-card-body">
-              {canDo("delete", post.userId) && <Deletepost post={post} />}
-
-              {canDo("update", post.userId) && <Editpost post={post} />}
-
-              <div className="d-flex gap-3 align-items-center pb-2">
+            <Flex justify="space-between">
+              <Flex align="center" gridGap={4}>
                 <img
                   src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
-                  alt="profile"
-                  className="post-img"
+                  alt="avatar"
+                  width="50px"
+                  height="50px"
+                  style={{ borderRadius: "50%" }}
                 />
-                <div>
-                  <Card.Subtitle>{post.User.userName}</Card.Subtitle>
-                  <Card.Text className="text-muted">
-                    {new Date(post.createdAt)
-                      .toLocaleString()
-                      .split(",")[0]
-                      .slice(0, 4)}{" "}
-                    at {new Date(post.createdAt).toLocaleString().split(",")[1]}
-                  </Card.Text>
-                </div>
-              </div>
-              <Card.Title className="mt-2">{post.title}</Card.Title>
-              <Card.Text className="post-content">{post.content}</Card.Text>
-              <div>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Comments
-                </Card.Subtitle>
-                <Comment comments={post.Comments} postId={post.id} />
-              </div>
-            </Card.Body>
-          </Card>
+                <Box align="left">
+                  <Heading as="h3" size="md">
+                    {post.User.userName}
+                  </Heading>
+                  <Text fontSize="sm" color="gray.500">
+                    {new Date(post.createdAt).toLocaleString().split(",")[0].slice(0, -5)} at{" "}
+                    {new Date(post.createdAt).toLocaleString().split(",")[1].slice(1, -3)}
+                  </Text>
+                </Box>
+              </Flex>
+              <Box align="right" display="flex" alignItems="center" gridGap={4}>
+                {canDo("update", post) && <Editpost post={post} />}
+                {canDo("delete", post) && <Deletepost post={post} />}
+              </Box>
+            </Flex>
+            <Text fontSize="xl" m={4} ml={6} align="left" fontWeight="bold">
+              {post.title}
+            </Text>
+            <Text fontSize="md" ml={6} align="left">
+              {post.content}
+            </Text>
+            <Box mt={4} bg={colorMode === "light" ? "gray.100" : "gray.800"} p={4} borderRadius="lg">
+              <Heading as="h4" size="sm" align="left" color="gray.500" mb={4}>
+                Comments
+              </Heading>
+              <Comment comments={post.Comments} postId={post.id} />
+            </Box>
+          </Box>
         ))}
-    </div>
+    </VStack>
   ) : (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <h1 className="text-center">You are not authorized to view this page</h1>
-    </div>
+    <VStack>
+      <Heading as="h2" size="md">
+        Please login to view posts
+      </Heading>
+      <Button colorScheme="teal" onClick={() => (window.location.href = "/sign")}>
+        Login
+      </Button>
+    </VStack>
   );
 }
