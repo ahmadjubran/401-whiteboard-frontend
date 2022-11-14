@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import Addcommentform from "./Add-comment-form";
 
