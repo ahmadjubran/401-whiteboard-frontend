@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Text, useColorMode, VStack } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { PostContext } from "../../../context/PostContext";
 import Addpostform from "./Add-post-form";
@@ -11,8 +11,31 @@ export default function Post() {
   const { userState, canDo } = useContext(AuthContext);
   const { colorMode } = useColorMode();
 
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWidth(window.innerWidth);
+    });
+  }, []);
+
+  const handleWidth = () => {
+    if (width < 600) {
+      return "90vw";
+    } else if (width < 900) {
+      return "75vw";
+    } else {
+      return "50vw";
+    }
+  };
+
   return userState.isAuth ? (
-    <VStack w="100%" align="center" spacing={8} bg={colorMode === "light" ? "gray.100" : "gray.800"}>
+    <VStack
+      w="100%"
+      justifyContent="center"
+      alignItems="center"
+      bg={colorMode === "light" ? "gray.100" : "gray.800"}
+      spacing={8}
+    >
       {canDo("create", null) && <Addpostform />}
 
       {canDo("read", null) &&
@@ -20,11 +43,13 @@ export default function Post() {
         postState.posts.map((post, index) => (
           <Box
             key={index}
-            w="50vw"
-            p={4}
+            w={handleWidth()}
+            pt={8}
+            pb={4}
+            px={8}
             m={4}
             bg={colorMode === "light" ? "gray.200" : "gray.700"}
-            borderRadius="lg"
+            borderRadius="3xl"
             boxShadow="lg"
           >
             <Flex justify="space-between">
@@ -51,16 +76,24 @@ export default function Post() {
                 {canDo("delete", post.User.id) && <Deletepost post={post} />}
               </Box>
             </Flex>
-            <Text fontSize="xl" m={4} ml={6} align="left" fontWeight="bold">
+            <Text fontSize="xl" m={4} mx={6} align="left" fontWeight="bold">
               {post.title}
             </Text>
-            <Text fontSize="md" ml={6} align="left">
-              {post.content}
-            </Text>
-            <Box mt={4} bg={colorMode === "light" ? "gray.100" : "gray.800"} p={4} borderRadius="lg">
-              <Heading as="h4" size="sm" align="left" color="gray.500" mb={4}>
-                Comments
-              </Heading>
+            {post.Comments.length > 0 ? (
+              <Text fontSize="md" mx={6} align="left" borderBottom="1px solid gray" pb="6" borderColor="gray.500">
+                {post.content}
+              </Text>
+            ) : (
+              <Text fontSize="md" mx={6} align="left">
+                {post.content}
+              </Text>
+            )}
+            <Box mt={2} p={4} borderRadius="lg">
+              {post.Comments.length > 0 ? (
+                <Heading as="h4" size="sm" align="left" color="gray.500" mb={4}>
+                  Comments
+                </Heading>
+              ) : null}
               <Comment comments={post.Comments} postId={post.id} />
             </Box>
           </Box>

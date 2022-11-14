@@ -1,5 +1,5 @@
 import { Button, useColorMode, VStack } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/footer/Footer";
@@ -28,7 +28,9 @@ function App() {
               color={colorMode === "light" ? "gray.300" : "gray.800"}
               _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.400" }}
             >
-              Toggle {colorMode === "light" ? "Dark" : "Light"}
+              <span role="img" aria-label="night">
+                {colorMode === "light" ? "🌙" : "☀️"}
+              </span>
             </Button>
             <Header />
             <Routes>

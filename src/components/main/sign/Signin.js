@@ -2,8 +2,6 @@ import { Button, FormControl, FormLabel, Heading, Input, Link, useColorMode, VSt
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 
-import "../../Style.css";
-
 export default function Signin(props) {
   const { toggleSign } = props;
   const { handleSignin } = useContext(AuthContext);
@@ -42,13 +40,29 @@ export default function Signin(props) {
       <form onSubmit={handleSignin}>
         <FormControl id="username" isRequired mt={4}>
           <FormLabel>Username</FormLabel>
-          <Input type="text" name="username" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="text"
+            name="username"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
         <FormControl id="password" isRequired mt={4}>
           <FormLabel>Password</FormLabel>
-          <Input type="password" name="password" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="password"
+            name="password"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
-        <Button type="submit" colorScheme="blue" mt={4} w={handleWidth()}>
+        <Button type="submit" colorScheme="blue" mt={4} w={handleWidth()} borderRadius="full">
           Sign In
         </Button>
       </form>

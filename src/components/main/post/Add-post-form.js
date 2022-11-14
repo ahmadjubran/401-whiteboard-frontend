@@ -66,24 +66,37 @@ export default function Addpostform(props) {
   };
 
   return (
-    <VStack
-      w="100vw"
-      h="60vh"
-      bg={colorMode === "light" ? "gray.100" : "gray.800"}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <VStack my={20}>
       <Heading>Add Post</Heading>
       <form onSubmit={handleSubmit} onChange={handleChange}>
         <FormControl id="title" isRequired mt={4}>
           <FormLabel>Title</FormLabel>
-          <Input type="text" name="title" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="text"
+            name="title"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
         <FormControl id="content" isRequired mt={4}>
           <FormLabel>Content</FormLabel>
-          <Textarea type="text" name="content" bg={inputBg} w={handleWidth()} resize="none" lineHeight="1.5" rows="5" />
+          <Textarea
+            type="text"
+            name="content"
+            bg={inputBg}
+            w={handleWidth()}
+            resize="none"
+            lineHeight="1.5"
+            rows="5"
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="3xl"
+          />
         </FormControl>
-        <Button type="submit" colorScheme="blue" mt={4}>
+        <Button type="submit" colorScheme="blue" mt={4} borderRadius="full">
           Add Post
         </Button>
       </form>

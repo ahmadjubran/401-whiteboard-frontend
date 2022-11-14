@@ -7,7 +7,7 @@ export default function Logout(props) {
 
   return (
     <div>
-      <Button onClick={handleLogout} colorScheme="blue">
+      <Button onClick={handleLogout} colorScheme="blue" borderRadius="full">
         Logout
       </Button>
     </div>

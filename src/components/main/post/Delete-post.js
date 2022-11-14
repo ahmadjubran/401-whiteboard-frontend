@@ -33,8 +33,8 @@ export default function Deletepost(props) {
 
   return (
     <div>
-      <Button onClick={handleDelete} colorScheme="red" variant="outline" leftIcon={<BsTrash />}>
-        Delete
+      <Button onClick={handleDelete} colorScheme="red" variant="outline" borderRadius="50%" ml={2} p={1}>
+        {<BsTrash />}
       </Button>
     </div>
   );
