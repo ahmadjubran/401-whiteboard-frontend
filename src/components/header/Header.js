@@ -11,7 +11,7 @@ export default function Header() {
     <>
       {userState.isAuth && userState.token ? (
         <VStack
-          w="100vw"
+          w="100%"
           h="10vh"
           justifyContent="space-around"
           alignItems="center"

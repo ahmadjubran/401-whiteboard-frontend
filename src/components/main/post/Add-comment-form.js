@@ -35,7 +35,7 @@ export default function Addcommentform(props) {
   return (
     <form onSubmit={handleSubmit}>
       <VStack>
-        <FormControl id="comment" display="flex" alignItems="center">
+        <FormControl id="comment" display="flex" alignItems="center" borderTop="1px" borderColor="gray.500" pt="6">
           <FormLabel htmlFor="comment" m={0} mr={2}>
             <img
               src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
@@ -52,7 +52,8 @@ export default function Addcommentform(props) {
             placeholder="Add a comment ..."
             onChange={handleChange}
             required
-            bg={colorMode === "light" ? "gray.200" : "gray.700"}
+            bg={colorMode === "light" ? "gray.100" : "gray.800"}
+            borderRadius="full"
           />
           <Button type="submit" colorScheme="teal" variant="outline" borderRadius="50%" ml={2} p={1}>
             {<BsFillArrowRightCircleFill />}

@@ -13,8 +13,6 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 
-import "../../Style.css";
-
 export default function Signup(props) {
   const { toggleSign } = props;
   const { handleSignup } = useContext(AuthContext);
@@ -52,22 +50,54 @@ export default function Signup(props) {
       <form onSubmit={handleSignup}>
         <FormControl id="username" isRequired>
           <FormLabel>Username</FormLabel>
-          <Input type="text" name="username" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="text"
+            name="username"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
 
         <FormControl id="password" isRequired mt={4}>
           <FormLabel>Password</FormLabel>
-          <Input type="password" name="password" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="password"
+            name="password"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
 
         <FormControl id="confirmPassword" isRequired mt={4}>
           <FormLabel>Confirm Password</FormLabel>
-          <Input type="password" name="confirmPassword" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="password"
+            name="confirmPassword"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
 
         <FormControl id="email" isRequired mt={4}>
           <FormLabel>Email</FormLabel>
-          <Input type="email" name="email" bg={inputBg} w={handleWidth()} />
+          <Input
+            type="email"
+            name="email"
+            bg={inputBg}
+            w={handleWidth()}
+            border="1px"
+            borderColor="gray.500"
+            borderRadius="full"
+          />
         </FormControl>
 
         <FormControl id="role" isRequired w={handleWidth()} mt={4}>
@@ -84,7 +114,7 @@ export default function Signup(props) {
             <Radio value="admin">Admin</Radio>
           </RadioGroup>
         </FormControl>
-        <Button type="submit" mt={4} w={handleWidth()} colorScheme="blue">
+        <Button type="submit" mt={4} w={handleWidth()} colorScheme="blue" borderRadius="full">
           Sign Up
         </Button>
       </form>

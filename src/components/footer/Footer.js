@@ -6,11 +6,10 @@ export default function Footer() {
 
   return (
     <VStack
-      w="100vw"
+      w="100%"
       h="10vh"
       justifyContent="center"
       alignItems="center"
-      p={4}
       bg={colorMode === "light" ? "gray.100" : "gray.800"}
     >
       <Heading as="h6" size="sm">

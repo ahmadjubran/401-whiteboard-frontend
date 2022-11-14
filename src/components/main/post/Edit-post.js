@@ -67,8 +67,8 @@ export default function Editpost(props) {
 
   return (
     <>
-      <Button onClick={() => setShow(true)} colorScheme="blue" variant="outline" leftIcon={<BsPencil />}>
-        Edit
+      <Button onClick={() => setShow(true)} colorScheme="blue" variant="outline" borderRadius="50%" ml={2} p={1}>
+        {<BsPencil />}
       </Button>
 
       <Modal isOpen={show} onClose={() => setShow(false)} size="xl">
