@@ -1,11 +1,12 @@
-import { Button, Heading, useColorMode, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, useColorMode, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
 import Logout from "./Logout";
 
 export default function Header() {
   const { userState } = useContext(AuthContext);
-  const { colorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -18,7 +19,21 @@ export default function Header() {
           flexDirection="row"
           bg={colorMode === "light" ? "gray.100" : "gray.800"}
         >
-          <Heading>Welcome {userState.user.userName}</Heading>
+          <Box justifyContent="center" alignItems="center" display="flex" mt={2} gridGap={2}>
+            <Button
+              onClick={toggleColorMode}
+              borderRadius="full"
+              bg={colorMode === "light" ? "gray.800" : "gray.300"}
+              color={colorMode === "light" ? "gray.300" : "gray.800"}
+              _hover={{ bg: colorMode === "light" ? "gray.700" : "gray.400" }}
+              alignSelf="center"
+            >
+              <span role="img" aria-label="night">
+                {colorMode === "light" ? <FaMoon /> : <FaSun />}
+              </span>
+            </Button>
+            <Heading>Welcome {userState.user.userName}</Heading>
+          </Box>
           <Logout Button={Button} />
         </VStack>
       ) : (
