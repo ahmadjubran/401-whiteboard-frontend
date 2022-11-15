@@ -71,12 +71,12 @@ export default function Editpost(props) {
         {<BsPencil />}
       </Button>
 
-      <Modal isOpen={show} onClose={() => setShow(false)} size="xl">
+      <Modal isOpen={show} onClose={() => setShow(false)} size="2xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent borderRadius="3xl" pb={4}>
           <ModalHeader>Edit Post</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody pb={6}>
             <VStack spacing={4}>
               <FormControl id="title" isRequired>
                 <FormLabel>Title</FormLabel>
@@ -86,6 +86,9 @@ export default function Editpost(props) {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   bg={inputBg}
+                  border="1px"
+                  borderColor="gray.500"
+                  borderRadius="full"
                 />
               </FormControl>
               <FormControl id="content" isRequired>
@@ -98,16 +101,21 @@ export default function Editpost(props) {
                   bg={inputBg}
                   resize="none"
                   rows={5}
+                  border="1px"
+                  borderColor="gray.500"
+                  borderRadius="3xl"
                 />
               </FormControl>
             </VStack>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleEdit}>
+            <Button colorScheme="blue" mr={3} onClick={handleEdit} borderRadius="full">
               Edit
             </Button>
-            <Button onClick={() => setShow(false)}>Cancel</Button>
+            <Button onClick={() => setShow(false)} borderRadius="full">
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
