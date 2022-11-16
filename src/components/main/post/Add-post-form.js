@@ -13,23 +13,6 @@ export default function Addpostform(props) {
   const { colorMode } = useColorMode();
   const inputBg = colorMode === "light" ? "gray.200" : "gray.800";
 
-  const [width, setWidth] = useState(window.innerWidth);
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setWidth(window.innerWidth);
-    });
-  }, []);
-
-  const handleWidth = () => {
-    if (width < 600) {
-      return "90vw";
-    } else if (width < 900) {
-      return "75vw";
-    } else {
-      return "50vw";
-    }
-  };
-
   const handleChange = (e) => {
     if (e.target.name === "title") {
       setTitle(e.target.value);
@@ -75,10 +58,10 @@ export default function Addpostform(props) {
             type="text"
             name="title"
             bg={inputBg}
-            w={handleWidth()}
             border="1px"
             borderColor="gray.500"
             borderRadius="full"
+            variant="post"
           />
         </FormControl>
         <FormControl id="content" isRequired mt={4}>
@@ -87,7 +70,6 @@ export default function Addpostform(props) {
             type="text"
             name="content"
             bg={inputBg}
-            w={handleWidth()}
             resize="none"
             lineHeight="1.5"
             rows="5"
