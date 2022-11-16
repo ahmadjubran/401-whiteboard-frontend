@@ -11,15 +11,21 @@ export default function Comment(props) {
         comments.map((comment, index) => (
           <Box key={index} borderRadius="lg" mb={4}>
             <Flex alignItems="left" flexDir="column">
-              <Box display="flex" alignItems="start" gridGap={3}>
+              <Box display="flex" alignItems="center" gridGap={3}>
                 <img
                   src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
                   alt="avatar"
-                  style={{ borderRadius: "50%", width: "30px", height: "30px" }}
+                  style={{ borderRadius: "50%", width: "35px", height: "35px" }}
                 />
-                <Heading size="sm">{comment.User.userName}</Heading>
+                <Box display="flex" alignItems="start" flexDir="column">
+                  <Heading size="sm">{comment.User.userName}</Heading>
+                  <Text fontSize="xs" color="gray.500">
+                    {new Date(comment.createdAt).toLocaleString().split(",")[0].slice(0, -5)} at{" "}
+                    {new Date(comment.createdAt).toLocaleString().split(",")[1]}
+                  </Text>
+                </Box>
               </Box>
-              <Text color="gray.500" fontSize="s" align="left" ml={10}>
+              <Text align="left" ml={12}>
                 {comment.content}
               </Text>
             </Flex>

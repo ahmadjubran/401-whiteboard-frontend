@@ -9,7 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     <AuthProvider>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <React.StrictMode>

@@ -1,11 +1,25 @@
-import { Box, Button, Flex, Heading, Text, useColorMode, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useColorMode,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
+import { BiMenu } from "react-icons/bi";
 import { AuthContext } from "../../../context/AuthContext";
 import { PostContext } from "../../../context/PostContext";
 import Addpostform from "./Add-post-form";
 import Comment from "./Comment";
 import Deletepost from "./Delete-post";
 import Editpost from "./Edit-post";
+
 export default function Post() {
   const { postState } = useContext(PostContext);
   const { userState, canDo } = useContext(AuthContext);
@@ -19,14 +33,18 @@ export default function Post() {
   }, []);
 
   const handleWidth = () => {
-    if (width < 600) {
+    if (width < 768) {
       return "90vw";
-    } else if (width < 900) {
+    } else if (width < 992) {
       return "75vw";
     } else {
       return "50vw";
     }
   };
+
+  const editPost = React.forwardRef((props, ref) => <Editpost innerRef={ref} {...props} />);
+
+  const deletePost = React.forwardRef((props, ref) => <Deletepost innerRef={ref} {...props} />);
 
   return userState.isAuth ? (
     <VStack
@@ -34,6 +52,7 @@ export default function Post() {
       justifyContent="center"
       alignItems="center"
       bg={colorMode === "light" ? "gray.100" : "gray.800"}
+      color={colorMode === "light" ? "gray.800" : "gray.100"}
       spacing={8}
     >
       {canDo("create", null) && <Addpostform />}
@@ -67,14 +86,27 @@ export default function Post() {
                   </Heading>
                   <Text fontSize="sm" color="gray.500">
                     {new Date(post.createdAt).toLocaleString().split(",")[0].slice(0, -5)} at{" "}
-                    {new Date(post.createdAt).toLocaleString().split(",")[1].slice(1, -3)}
+                    {new Date(post.createdAt).toLocaleString().split(",")[1]}
                   </Text>
                 </Box>
               </Flex>
-              <Box align="right" display="flex" alignItems="center" gridGap={4}>
-                {canDo("update", post.User.id) && <Editpost post={post} />}
-                {canDo("delete", post.User.id) && <Deletepost post={post} />}
-              </Box>
+              {canDo("update", post.User.id) && canDo("delete", post.User.id) && (
+                <Menu>
+                  <MenuButton aria-label="Options" as={Button} variant="ghost">
+                    <BiMenu size="1.5rem" />
+                  </MenuButton>
+                  <MenuList
+                    bg={colorMode === "light" ? "gray.100" : "gray.800"}
+                    color={colorMode === "light" ? "gray.800" : "gray.100"}
+                    borderRadius="3xl"
+                    border="1px solid"
+                    borderColor="gray.500"
+                  >
+                    <MenuItem as={editPost} post={post} />
+                    <MenuItem as={deletePost} post={post} />
+                  </MenuList>
+                </Menu>
+              )}
             </Flex>
             <Text fontSize="xl" m={4} mx={6} align="left" fontWeight="bold">
               {post.title}

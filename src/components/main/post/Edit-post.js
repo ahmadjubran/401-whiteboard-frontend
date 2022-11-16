@@ -61,14 +61,14 @@ export default function Editpost(props) {
         position: "top",
       });
       setShow(false);
-      e.target.reset();
     }
   };
 
   return (
     <>
-      <Button onClick={() => setShow(true)} colorScheme="blue" variant="outline" borderRadius="50%" ml={2} p={1}>
+      <Button onClick={() => setShow(true)} colorScheme="blue" variant="none" ml={2} p={1}>
         {<BsPencil />}
+        <span style={{ marginLeft: "5px" }}>Edit Post</span>
       </Button>
 
       <Modal isOpen={show} onClose={() => setShow(false)} size="2xl">
