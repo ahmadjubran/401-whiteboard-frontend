@@ -22,7 +22,7 @@ export default function Addcommentform(props) {
     if (comment === "") {
       return;
     } else {
-      await axios.post(`https://whiteboard-backend-3000.herokuapp.com/comment/${userState.user.id}/${props.postId}`, {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/comment/${userState.user.id}/${props.postId}`, {
         content: comment,
       });
 
@@ -53,9 +53,12 @@ export default function Addcommentform(props) {
             onChange={handleChange}
             required
             bg={colorMode === "light" ? "gray.100" : "gray.800"}
+            border="1px"
+            borderColor="gray.500"
             borderRadius="full"
+            _hover={{ borderColor: colorMode === "light" ? "gray.700" : "gray.300" }}
           />
-          <Button type="submit" colorScheme="teal" variant="outline" borderRadius="50%" ml={2} p={1}>
+          <Button type="submit" colorScheme="blue" variant="outline" borderRadius="50%" ml={2} p={1}>
             {<BsFillArrowRightCircleFill />}
           </Button>
         </FormControl>
@@ -63,31 +66,3 @@ export default function Addcommentform(props) {
     </form>
   );
 }
-
-//   return (
-//     <div>
-//       <Form onSubmit={handleSubmit} onChange={handleChange}>
-//         <Form.Group className="d-flex justify-content-center align-items-center gap-2 mt-3">
-//           <img
-//             src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
-//             alt="profile"
-//             style={{
-//               width: "30px",
-//               height: "30px",
-//               borderRadius: "50%",
-//             }}
-//           />
-//           <Form.Control
-//             type="text"
-//             placeholder="Add a comment ..."
-//             name="comment"
-//             className="border-0 rounded-5"
-//           />
-//           <Button type="submit" className="bg-transparent border-0 p-0">
-//             <BsFillArrowRightCircleFill className="fs-2" />
-//           </Button>
-//         </Form.Group>
-//       </Form>
-//     </div>
-//   );
-// }

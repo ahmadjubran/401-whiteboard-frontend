@@ -32,7 +32,7 @@ export default function Header() {
                 {colorMode === "light" ? <FaMoon /> : <FaSun />}
               </span>
             </Button>
-            <Heading>Welcome {userState.user.userName}</Heading>
+            <Heading variant="header">Welcome {userState.user.userName}</Heading>
           </Box>
           <Logout Button={Button} />
         </VStack>

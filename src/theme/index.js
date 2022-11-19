@@ -43,6 +43,14 @@ const theme = extendTheme({
   },
 
   components: {
+    Heading: {
+      variants: {
+        header: {
+          fontSize: ["xl", "xl", "2xl", "3xl", "4xl"],
+        },
+      },
+    },
+
     Input: {
       variants: {
         sign: {
@@ -61,8 +69,8 @@ const theme = extendTheme({
             width: {
               base: "90vw",
               md: "75vw",
-              lg: "50vw",
-              xl: "40vw",
+              lg: "60vw",
+              xl: "50vw",
             },
           },
         },

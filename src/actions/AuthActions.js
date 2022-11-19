@@ -6,7 +6,7 @@ export const login = (dispatch, payload) => {
     dispatch({ type: actionType.REQUEST_LOGIN });
     axios
       .post(
-        `https://whiteboard-backend-3000.herokuapp.com/login`,
+        `${process.env.REACT_APP_SERVER_URL}/login`,
         {},
         {
           headers: {
@@ -43,7 +43,7 @@ export const signup = (dispatch, payload) => {
   try {
     dispatch({ type: actionType.REQUEST_SIGNUP });
     axios
-      .post(`https://whiteboard-backend-3000.herokuapp.com/signup`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
         userName: payload.userName,
         password: payload.password,
         email: payload.email,

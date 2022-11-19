@@ -1,4 +1,4 @@
-import { Heading, useColorMode, VStack } from "@chakra-ui/react";
+import { Text, useColorMode, VStack } from "@chakra-ui/react";
 import React from "react";
 
 export default function Footer() {
@@ -12,9 +12,7 @@ export default function Footer() {
       alignItems="center"
       bg={colorMode === "light" ? "gray.100" : "gray.800"}
     >
-      <Heading as="h6" size="sm">
-        © 2022 Whiteboard
-      </Heading>
+      <Text color="gray.500">&copy; {new Date().getFullYear()} Ahmad Jubran. All rights reserved.</Text>
     </VStack>
   );
 }
