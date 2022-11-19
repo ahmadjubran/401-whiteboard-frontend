@@ -1,4 +1,4 @@
-import { Button, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext } from "react";
 import { BsTrash } from "react-icons/bs";
@@ -14,7 +14,7 @@ export default function Deletepost(props) {
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    await axios.delete(`https://whiteboard-backend-3000.herokuapp.com/post/${props.post.id}`, {
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/post/${props.post.id}`, {
       headers: {
         Authorization: `Bearer ${userState.token}`,
       },
@@ -32,11 +32,13 @@ export default function Deletepost(props) {
   };
 
   return (
-    <div>
-      <Button onClick={handleDelete} colorScheme="red" variant="none" ml={2} p={1}>
-        {<BsTrash />}
-        <span style={{ marginLeft: "5px" }}>Delete post</span>
-      </Button>
-    </div>
+    <a
+      href="#"
+      onClick={handleDelete}
+      style={{ display: "flex", alignItems: "center", fontWeight: "bold", margin: "0 auto" }}
+    >
+      <BsTrash />
+      <span style={{ marginLeft: "5px" }}>Delete Post</span>
+    </a>
   );
 }

@@ -44,8 +44,6 @@ export default function Post() {
 
   const editPost = React.forwardRef((props, ref) => <Editpost innerRef={ref} {...props} />);
 
-  const deletePost = React.forwardRef((props, ref) => <Deletepost innerRef={ref} {...props} />);
-
   return userState.isAuth ? (
     <VStack
       w="100%"
@@ -103,7 +101,9 @@ export default function Post() {
                     borderColor="gray.500"
                   >
                     <MenuItem as={editPost} post={post} />
-                    <MenuItem as={deletePost} post={post} />
+                    <MenuItem bg="none">
+                      <Deletepost post={post} />
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               )}
@@ -112,11 +112,19 @@ export default function Post() {
               {post.title}
             </Text>
             {post.Comments.length > 0 ? (
-              <Text fontSize="md" mx={6} align="left" borderBottom="1px solid gray" pb="6" borderColor="gray.500">
+              <Text
+                fontSize="md"
+                mx={6}
+                align="left"
+                borderBottom="1px solid gray"
+                pb="6"
+                borderColor="gray.500"
+                whiteSpace="pre-line"
+              >
                 {post.content}
               </Text>
             ) : (
-              <Text fontSize="md" mx={6} align="left">
+              <Text fontSize="md" mx={6} align="left" whiteSpace="pre-line">
                 {post.content}
               </Text>
             )}

@@ -39,7 +39,7 @@ export default function Editpost(props) {
       return;
     } else {
       await axios.put(
-        `https://whiteboard-backend-3000.herokuapp.com/post/${props.post.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/post/${props.post.id}`,
         {
           title: title,
           content: content,
@@ -66,17 +66,17 @@ export default function Editpost(props) {
 
   return (
     <>
-      <Button onClick={() => setShow(true)} colorScheme="blue" variant="none" ml={2} p={1}>
+      <Button onClick={() => setShow(true)} colorScheme="blue" variant="none" fontWeight="bold">
         {<BsPencil />}
         <span style={{ marginLeft: "5px" }}>Edit Post</span>
       </Button>
 
-      <Modal isOpen={show} onClose={() => setShow(false)} size="2xl">
+      <Modal isOpen={show} onClose={() => setShow(false)} size="3xl">
         <ModalOverlay />
         <ModalContent borderRadius="3xl" pb={4}>
           <ModalHeader>Edit Post</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody py={8}>
             <VStack spacing={4}>
               <FormControl id="title" isRequired>
                 <FormLabel>Title</FormLabel>
@@ -89,6 +89,7 @@ export default function Editpost(props) {
                   border="1px"
                   borderColor="gray.500"
                   borderRadius="full"
+                  _hover={{ borderColor: colorMode === "light" ? "gray.700" : "gray.300" }}
                 />
               </FormControl>
               <FormControl id="content" isRequired>
@@ -104,6 +105,7 @@ export default function Editpost(props) {
                   border="1px"
                   borderColor="gray.500"
                   borderRadius="3xl"
+                  _hover={{ borderColor: colorMode === "light" ? "gray.700" : "gray.300" }}
                 />
               </FormControl>
             </VStack>

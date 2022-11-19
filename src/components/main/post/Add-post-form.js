@@ -1,11 +1,11 @@
 import { Button, FormControl, FormLabel, Heading, Input, Textarea, useColorMode, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { fetchPosts } from "../../../actions/PostActions";
 import { AuthContext } from "../../../context/AuthContext";
 import { PostContext } from "../../../context/PostContext";
 
-export default function Addpostform(props) {
+export default function Addpostform() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { userState } = useContext(AuthContext);
@@ -14,11 +14,11 @@ export default function Addpostform(props) {
   const inputBg = colorMode === "light" ? "gray.200" : "gray.800";
 
   const handleChange = (e) => {
-    if (e.target.name === "title") {
-      setTitle(e.target.value);
-    }
-    if (e.target.name === "content") {
-      setContent(e.target.value);
+    const { name, value } = e.target;
+    if (name === "title") {
+      setTitle(value);
+    } else if (name === "content") {
+      setContent(value);
     }
   };
 
@@ -29,7 +29,7 @@ export default function Addpostform(props) {
       return;
     } else {
       await axios.post(
-        `https://whiteboard-backend-3000.herokuapp.com/post/${userState.user.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/post/${userState.user.id}`,
         {
           title: title,
           content: content,
@@ -62,6 +62,8 @@ export default function Addpostform(props) {
             borderColor="gray.500"
             borderRadius="full"
             variant="post"
+            _hover={{ borderColor: colorMode === "light" ? "gray.700" : "gray.300" }}
+            _focus={{ borderColor: "#3182ce", boxShadow: "0 0 0 1px #3182ce" }}
           />
         </FormControl>
         <FormControl id="content" isRequired mt={4}>
@@ -76,6 +78,7 @@ export default function Addpostform(props) {
             border="1px"
             borderColor="gray.500"
             borderRadius="3xl"
+            _hover={{ borderColor: colorMode === "light" ? "gray.700" : "gray.300" }}
           />
         </FormControl>
         <Button type="submit" colorScheme="blue" mt={4} borderRadius="full">
