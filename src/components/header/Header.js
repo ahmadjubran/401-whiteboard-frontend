@@ -34,7 +34,7 @@ export default function Header() {
             </span>
           </Button>
           {isAuth && token ? (
-            <Heading variant="header">Welcome {user.userName}</Heading>
+            <Heading variant="header">Welcome {user && user.userName}</Heading>
           ) : (
             <Heading>WhiteBoard</Heading>
           )}
