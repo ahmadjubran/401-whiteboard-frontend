@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { Button, useToast } from "@chakra-ui/react";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../actions/authActions/logoutActions";
 
-export default function Logout(props) {
-  const { handleLogout } = useContext(AuthContext);
-  const { Button } = props;
+export default function Logout() {
+  const dispatch = useDispatch();
+  const toast = useToast();
 
   return (
     <div>
-      <Button onClick={handleLogout} colorScheme="blue" borderRadius="full">
+      <Button onClick={() => logout(dispatch, toast)} colorScheme="blue" borderRadius="full">
         Logout
       </Button>
     </div>

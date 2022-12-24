@@ -42,6 +42,15 @@ const theme = extendTheme({
     "6xl": "4rem",
   },
 
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: props.colorMode === "light" ? "gray.100" : "gray.800",
+        color: props.colorMode === "light" ? "gray.800" : "gray.100",
+      },
+    }),
+  },
+
   components: {
     Heading: {
       variants: {
@@ -53,8 +62,12 @@ const theme = extendTheme({
 
     Input: {
       variants: {
-        sign: {
+        sign: (props) => ({
           field: {
+            bg: props.colorMode === "light" ? "gray.200" : "gray.800",
+            border: "1px",
+            borderColor: "gray.500",
+            borderRadius: "full",
             width: {
               base: "100vw",
               sm: "75vw",
@@ -63,9 +76,15 @@ const theme = extendTheme({
               xl: "30vw",
             },
           },
-        },
-        post: {
+        }),
+        post: (props) => ({
           field: {
+            bg: props.colorMode === "light" ? "gray.200" : "gray.800",
+            border: "1px",
+            borderColor: "gray.500",
+            borderRadius: "full",
+            _hover: { borderColor: props.colorMode === "light" ? "gray.700" : "gray.300" },
+            _focus: { borderColor: "#3182ce", boxShadow: "0 0 0 1px #3182ce" },
             width: {
               base: "90vw",
               md: "75vw",
@@ -73,7 +92,43 @@ const theme = extendTheme({
               xl: "50vw",
             },
           },
-        },
+        }),
+        editPost: (props) => ({
+          field: {
+            bg: props.colorMode === "light" ? "gray.200" : "gray.800",
+            border: "1px",
+            borderColor: "gray.500",
+            borderRadius: "full",
+            _hover: { borderColor: props.colorMode === "light" ? "gray.700" : "gray.300" },
+            _focus: { borderColor: "#3182ce", boxShadow: "0 0 0 1px #3182ce" },
+          },
+        }),
+      },
+    },
+    Textarea: {
+      variants: {
+        post: (props) => ({
+          bg: props.colorMode === "light" ? "gray.200" : "gray.800",
+          border: "1px",
+          borderColor: "gray.500",
+          borderRadius: "3xl",
+          _hover: { borderColor: props.colorMode === "light" ? "gray.700" : "gray.300" },
+          _focus: { borderColor: "#3182ce", boxShadow: "0 0 0 1px #3182ce" },
+          width: {
+            base: "90vw",
+            md: "75vw",
+            lg: "60vw",
+            xl: "50vw",
+          },
+        }),
+        editPost: (props) => ({
+          bg: props.colorMode === "light" ? "gray.200" : "gray.800",
+          border: "1px",
+          borderColor: "gray.500",
+          borderRadius: "3xl",
+          _hover: { borderColor: props.colorMode === "light" ? "gray.700" : "gray.300" },
+          _focus: { borderColor: "#3182ce", boxShadow: "0 0 0 1px #3182ce" },
+        }),
       },
     },
   },
