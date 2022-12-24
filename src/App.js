@@ -1,30 +1,28 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import Auth from "./components/auth";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
-import Post from "./components/main/post/Post";
-import Sign from "./components/main/sign/Sign";
-import { AuthContext } from "./context/AuthContext";
-import PostProvider from "./context/PostContext";
+import Post from "./components/home";
+import { isAuthState } from "./features/authSlicer";
 
 function App() {
-  const { userState } = useContext(AuthContext);
+  const isAuth = useSelector(isAuthState);
 
   return (
-    <PostProvider>
-      <BrowserRouter>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route path="/" element={userState.isAuth ? <Navigate to="/post" /> : <Sign />} />
-            <Route path="/post" element={userState.isAuth ? <Post /> : <Navigate to="/sign" />} />
-            <Route path="/sign" element={userState.isAuth ? <Navigate to="/post" /> : <Sign />} />
-          </Routes>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </PostProvider>
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={isAuth ? <Navigate to="/post" /> : <Auth />} />
+          <Route path="/post" element={isAuth ? <Post /> : <Navigate to="/sign" />} />
+          <Route path="/sign" element={isAuth ? <Navigate to="/post" /> : <Auth />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
 

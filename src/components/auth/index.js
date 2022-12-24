@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Signin from "./Signin";
 import Signup from "./Signup";
 
-export default function Sign(props) {
+export default function Sign() {
   const [sign, setSign] = useState("signin");
 
   const toggleSign = () => {
@@ -13,9 +13,5 @@ export default function Sign(props) {
     }
   };
 
-  return sign === "signin" ? (
-    <Signin toggleSign={toggleSign} {...props} />
-  ) : (
-    <Signup toggleSign={toggleSign} {...props} />
-  );
+  return sign === "signin" ? <Signin toggleSign={toggleSign} /> : <Signup toggleSign={toggleSign} />;
 }

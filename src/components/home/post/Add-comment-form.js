@@ -1,16 +1,17 @@
-import { Box, Button, FormControl, FormLabel, Input, useColorMode, VStack } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, useColorMode, useToast, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
-import { fetchPosts } from "../../../actions/PostActions";
-import { AuthContext } from "../../../context/AuthContext";
-import { PostContext } from "../../../context/PostContext";
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../../../actions/postActions/getPostsActions";
+import { userState } from "../../../features/authSlicer";
 
 export default function Addcommentform(props) {
   const [comment, setComment] = useState("");
-  const { userState } = useContext(AuthContext);
-  const { dispatch } = useContext(PostContext);
+  const user = useSelector(userState);
+  const dispatch = useDispatch();
   const { colorMode } = useColorMode();
+  const toast = useToast();
 
   const handleChange = (e) => {
     setComment(e.target.value);
@@ -20,14 +21,21 @@ export default function Addcommentform(props) {
     e.preventDefault();
 
     if (comment === "") {
-      return;
+      return toast({
+        title: "Error.",
+        description: "Please enter a comment.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } else {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/comment/${userState.user.id}/${props.postId}`, {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/comment/${user.id}/${props.postId}`, {
         content: comment,
       });
 
       setComment("");
-      fetchPosts(dispatch);
+      getPosts(dispatch);
       e.target.reset();
     }
   };
@@ -35,7 +43,15 @@ export default function Addcommentform(props) {
   return (
     <form onSubmit={handleSubmit}>
       <VStack>
-        <FormControl id="comment" display="flex" alignItems="center" borderTop="1px" borderColor="gray.500" pt="6">
+        <FormControl
+          id="comment"
+          display="flex"
+          alignItems="center"
+          borderTop="1px"
+          borderColor="gray.500"
+          p="4"
+          mt="4"
+        >
           <FormLabel htmlFor="comment" m={0} mr={2}>
             <img
               src="https://png.pngitem.com/pimgs/s/4-40070_user-staff-man-profile-user-account-icon-jpg.png"
